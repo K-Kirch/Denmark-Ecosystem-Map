@@ -13,8 +13,6 @@ import { initAddCompanyModal, openModal } from './components/addCompanyModal.js'
 // DOM Elements
 const filterButtons = document.querySelectorAll('.filter-btn');
 const searchInput = document.getElementById('search-input');
-const startupCountEl = document.getElementById('startup-count');
-const investorCountEl = document.getElementById('investor-count');
 const addCompanyBtn = document.getElementById('add-company-btn');
 
 // State
@@ -159,11 +157,13 @@ function updateStats() {
     const counts = getCounts(allCompanies);
     const startupEl = document.getElementById('startup-count');
     const investorEl = document.getElementById('investor-count');
+    const supporterEl = document.getElementById('supporter-count');
 
-    if (startupEl && investorEl) {
+    if (startupEl && investorEl && supporterEl) {
         // Animate count updates
         animateCounter(startupEl, counts.startups);
         animateCounter(investorEl, counts.investors);
+        animateCounter(supporterEl, counts.supporters);
     }
 }
 

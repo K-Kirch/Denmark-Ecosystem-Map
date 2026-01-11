@@ -43,13 +43,6 @@ export function initMap(containerId) {
 }
 
 /**
- * Get the map instance
- */
-export function getMap() {
-    return map;
-}
-
-/**
  * Fly to a specific location
  */
 export function flyTo(lat, lng, zoom = 12) {

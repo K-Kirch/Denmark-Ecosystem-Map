@@ -335,6 +335,10 @@ body {
   border-color: var(--accent-gold);
 }
 
+.marker-logo.supporter {
+  border-color: var(--accent-cyan);
+}
+
 .custom-marker:hover .marker-logo {
   box-shadow: var(--shadow-lg), var(--shadow-glow-purple);
 }
@@ -355,6 +359,10 @@ body {
 
 .marker-pulse.investor {
   background: var(--accent-gold);
+}
+
+.marker-pulse.supporter {
+  background: var(--accent-cyan);
 }
 
 @keyframes pulse {
@@ -382,6 +390,88 @@ body {
   border-radius: 50%;
   box-shadow: var(--shadow-sm);
   z-index: 10;
+}
+
+/* ========================================
+   Marker Clusters
+   ======================================== */
+
+.custom-cluster-icon {
+  background: transparent;
+}
+
+.cluster-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  border: 3px solid var(--bg-secondary);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(139, 92, 246, 0.4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.cluster-icon:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl), 0 0 30px rgba(139, 92, 246, 0.6);
+}
+
+.cluster-icon span {
+  font-family: var(--font-family);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Size variants */
+.cluster-small {
+  width: 40px;
+  height: 40px;
+}
+
+.cluster-small span {
+  font-size: var(--font-size-sm);
+}
+
+.cluster-medium {
+  width: 48px;
+  height: 48px;
+}
+
+.cluster-medium span {
+  font-size: var(--font-size-base);
+}
+
+.cluster-large {
+  width: 56px;
+  height: 56px;
+}
+
+.cluster-large span {
+  font-size: var(--font-size-lg);
+}
+
+/* Override default markercluster styles */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background: transparent !important;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background: var(--gradient-primary) !important;
+  color: #fff !important;
+  font-family: var(--font-family) !important;
+  font-weight: 700 !important;
+}
+
+/* Spider legs (when markers spread out at max zoom) */
+.leaflet-cluster-anim .leaflet-marker-icon,
+.leaflet-cluster-anim .leaflet-marker-shadow {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-in;
 }
 
 /* ========================================
@@ -484,12 +574,17 @@ body {
 
 .panel-type.startup {
   background: rgba(139, 92, 246, 0.15);
-  color: var(--accent-purple-light);
+  color: var(--accent-purple);
 }
 
 .panel-type.investor {
   background: rgba(245, 158, 11, 0.15);
-  color: var(--accent-gold-light);
+  color: var(--accent-gold);
+}
+
+.panel-type.supporter {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-cyan);
 }
 
 .panel-badges {
@@ -1031,6 +1126,59 @@ body {
 .form-group textarea {
   resize: vertical;
   min-height: 80px;
+}
+
+/* Location Preview */
+.location-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-fast);
+}
+
+.location-preview .preview-icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+.location-preview .preview-text {
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.location-preview.loading {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.location-preview.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.location-preview.success .preview-icon {
+  color: #22c55e;
+}
+
+.location-preview.success .preview-text {
+  color: #22c55e;
+}
+
+.location-preview.warning {
+  background: rgba(234, 88, 12, 0.9);
+  border: 1px solid #ea580c;
+}
+
+.location-preview.warning .preview-icon {
+  color: #fff;
+}
+
+.location-preview.warning .preview-text {
+  color: #fff;
 }
 
 /* Form Actions */

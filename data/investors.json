@@ -1,779 +1,779 @@
 [
-    {
-        "id": "seed-capital",
-        "name": "Seed Capital",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/seedcapital.dk",
-        "website": "https://seedcapital.dk",
-        "portfolioUrl": "https://seedcapital.dk/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2006,
-        "description": "Denmark's largest seed-stage VC. Early investor in Trustpilot, Vivino, Lunar.",
-        "focus": [
-            "Tech",
-            "B2B",
-            "SaaS"
-        ],
-        "coordinates": [
-            55.6761,
-            12.5683
-        ]
-    },
-    {
-        "id": "northzone",
-        "name": "Northzone",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/northzone.com",
-        "website": "https://northzone.com",
-        "portfolioUrl": "https://northzone.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 1996,
-        "description": "Leading European VC backing bold founders building category-defining companies.",
-        "focus": [
-            "Tech",
-            "Consumer",
-            "Enterprise"
-        ],
-        "coordinates": [
-            55.6781,
-            12.5559
-        ]
-    },
-    {
-        "id": "byfounders",
-        "name": "byFounders",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/byfounders.vc",
-        "website": "https://byfounders.vc",
-        "portfolioUrl": "https://byfounders.vc/companies",
-        "location": "Copenhagen, Denmark",
-        "founded": 2017,
-        "description": "For founders, by founders. Nordic/Baltic early-stage VC with 300+ founder advisors.",
-        "focus": [
-            "Tech",
-            "SaaS",
-            "Marketplace"
-        ],
-        "coordinates": [
-            55.6801,
-            12.5621
-        ]
-    },
-    {
-        "id": "preseed-ventures",
-        "name": "PreSeed Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/preseedventures.dk",
-        "website": "https://preseedventures.dk",
-        "portfolioUrl": "https://preseedventures.dk/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2005,
-        "description": "One of the most active early-stage VCs in Denmark, from DTU Science Park.",
-        "focus": [
-            "Deep Tech",
-            "B2B",
-            "Hardware"
-        ],
-        "coordinates": [
-            55.6655,
-            12.5782
-        ]
-    },
-    {
-        "id": "eifo",
-        "name": "EIFO (Vækstfonden)",
-        "type": "investor",
-        "category": "Government Fund",
-        "logo": "https://logo.clearbit.com/eifo.dk",
-        "website": "https://eifo.dk",
-        "portfolioUrl": "https://eifo.dk/cases",
-        "location": "Copenhagen, Denmark",
-        "founded": 1992,
-        "description": "Denmark's national export and investment fund. Supports companies across all sectors.",
-        "focus": [
-            "All sectors",
-            "Export",
-            "Growth"
-        ],
-        "coordinates": [
-            55.6698,
-            12.5845
-        ]
-    },
-    {
-        "id": "novo-holdings",
-        "name": "Novo Holdings",
-        "type": "investor",
-        "category": "Corporate VC",
-        "logo": "https://logo.clearbit.com/novoholdings.dk",
-        "website": "https://novoholdings.dk",
-        "portfolioUrl": "https://novoholdings.dk/investments",
-        "location": "Hellerup, Denmark",
-        "founded": 1999,
-        "description": "Denmark's largest life sciences investor. One of Europe's biggest biotech portfolios.",
-        "focus": [
-            "Life Sciences",
-            "Biotech",
-            "Healthcare"
-        ],
-        "coordinates": [
-            55.7314,
-            12.5734
-        ]
-    },
-    {
-        "id": "heartcore-capital",
-        "name": "Heartcore Capital",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/heartcore.com",
-        "website": "https://heartcore.com",
-        "portfolioUrl": "https://heartcore.com/companies",
-        "location": "Copenhagen, Denmark",
-        "founded": 2017,
-        "description": "Early-stage European VC. Consumer, SaaS, marketplace focus. 100+ investments.",
-        "focus": [
-            "Consumer",
-            "SaaS",
-            "Marketplace"
-        ],
-        "coordinates": [
-            55.6789,
-            12.5612
-        ]
-    },
-    {
-        "id": "accelerace",
-        "name": "Accelerace",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/accelerace.io",
-        "website": "https://accelerace.io",
-        "portfolioUrl": "https://accelerace.io/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2008,
-        "description": "Top Nordic accelerator and pre-seed investor. Alumni include Trustpilot, Labster.",
-        "focus": [
-            "Pre-seed",
-            "Tech",
-            "SaaS"
-        ],
-        "coordinates": [
-            55.6745,
-            12.5689
-        ]
-    },
-    {
-        "id": "lundbeckfonden-ventures",
-        "name": "Lundbeckfonden Ventures",
-        "type": "investor",
-        "category": "Corporate VC",
-        "logo": "https://logo.clearbit.com/lundbeckfonden.com",
-        "website": "https://lundbeckfonden.com/en/lundbeckfonden-ventures",
-        "portfolioUrl": "https://lundbeckfonden.com/en/lundbeckfonden-ventures/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2008,
-        "description": "Evergreen life science venture fund owned by Lundbeck Foundation.",
-        "focus": [
-            "Life Sciences",
-            "Biotech",
-            "MedTech"
-        ],
-        "coordinates": [
-            55.6823,
-            12.5534
-        ]
-    },
-    {
-        "id": "2150",
-        "name": "2150",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/2150.vc",
-        "website": "https://2150.vc",
-        "portfolioUrl": "https://2150.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2021,
-        "description": "Backs technology companies building sustainable cities of the future.",
-        "focus": [
-            "Urban Tech",
-            "Climate Tech",
-            "Sustainability"
-        ],
-        "coordinates": [
-            55.6834,
-            12.5712
-        ]
-    },
-    {
-        "id": "nordic-eye",
-        "name": "Nordic Eye Venture Capital",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/nordiceye.com",
-        "website": "https://nordiceye.com",
-        "portfolioUrl": "https://nordiceye.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2012,
-        "description": "Early-growth tech and lifestyle investments. Copenhagen, Zurich, London, SF offices.",
-        "focus": [
-            "Consumer",
-            "Lifestyle",
-            "Tech"
-        ],
-        "coordinates": [
-            55.6756,
-            12.5698
-        ]
-    },
-    {
-        "id": "dreamcraft-ventures",
-        "name": "Dreamcraft Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/dreamcraft.vc",
-        "website": "https://dreamcraft.vc",
-        "portfolioUrl": "https://dreamcraft.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2020,
-        "description": "Operator-led VC backing gaming, SaaS, and B2C companies.",
-        "focus": [
-            "Gaming",
-            "SaaS",
-            "B2C"
-        ],
-        "coordinates": [
-            55.6812,
-            12.5623
-        ]
-    },
-    {
-        "id": "kompas-vc",
-        "name": "KOMPAS VC",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/kompas.vc",
-        "website": "https://kompas.vc",
-        "portfolioUrl": "https://kompas.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2022,
-        "description": "Early-stage founders using technology to decarbonize building and manufacturing.",
-        "focus": [
-            "Climate Tech",
-            "Construction",
-            "Industrial"
-        ],
-        "coordinates": [
-            55.6798,
-            12.5587
-        ]
-    },
-    {
-        "id": "scale-capital",
-        "name": "Scale Capital",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/scalecapital.vc",
-        "website": "https://scalecapital.vc",
-        "portfolioUrl": "https://scalecapital.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2019,
-        "description": "Danish venture fund helping Nordic B2B tech startups succeed in the US.",
-        "focus": [
-            "B2B",
-            "SaaS",
-            "US Expansion"
-        ],
-        "coordinates": [
-            55.6776,
-            12.5645
-        ]
-    },
-    {
-        "id": "climentum-capital",
-        "name": "Climentum Capital",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/climentum.com",
-        "website": "https://climentum.com",
-        "portfolioUrl": "https://climentum.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2022,
-        "description": "European hardtech and software startups at Seed+ and Series A for climate.",
-        "focus": [
-            "Climate Tech",
-            "HardTech",
-            "Software"
-        ],
-        "coordinates": [
-            55.6823,
-            12.5712
-        ]
-    },
-    {
-        "id": "unconventional-ventures",
-        "name": "Unconventional Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/unconventional.vc",
-        "website": "https://unconventional.vc",
-        "portfolioUrl": "https://unconventional.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2019,
-        "description": "Early-stage funding for scalable impact tech startups by underrepresented groups.",
-        "focus": [
-            "Impact",
-            "Diversity",
-            "Tech"
-        ],
-        "coordinates": [
-            55.6745,
-            12.5689
-        ]
-    },
-    {
-        "id": "sunstone",
-        "name": "Sunstone Life Science Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/sunstone.eu",
-        "website": "https://sunstone.eu",
-        "portfolioUrl": "https://sunstone.eu/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2007,
-        "description": "Independent European VC enabling life science therapeutics innovations.",
-        "focus": [
-            "Life Sciences",
-            "Therapeutics",
-            "Biotech"
-        ],
-        "coordinates": [
-            55.6867,
-            12.5598
-        ]
-    },
-    {
-        "id": "crista-galli",
-        "name": "Crista Galli Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/cristagalli.vc",
-        "website": "https://cristagalli.vc",
-        "portfolioUrl": "https://cristagalli.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2018,
-        "description": "Investing in ambitious European healthtech companies at Seed and Series A.",
-        "focus": [
-            "HealthTech",
-            "Digital Health",
-            "MedTech"
-        ],
-        "coordinates": [
-            55.6734,
-            12.5712
-        ]
-    },
-    {
-        "id": "people-ventures",
-        "name": "People Ventures",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/peopleventures.vc",
-        "website": "https://peopleventures.vc",
-        "portfolioUrl": "https://peopleventures.vc/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2020,
-        "description": "Copenhagen-based seed fund investing across tech sectors.",
-        "focus": [
-            "Tech",
-            "Seed",
-            "B2B"
-        ],
-        "coordinates": [
-            55.6756,
-            12.5667
-        ]
-    },
-    {
-        "id": "borean-innovation",
-        "name": "Borean Innovation",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/borean.dk",
-        "website": "https://borean.dk",
-        "portfolioUrl": "https://borean.dk/portfolio",
-        "location": "Aarhus, Denmark",
-        "founded": 2005,
-        "description": "National innovation incubator providing pre-seed and seed capital.",
-        "focus": [
-            "Deep Tech",
-            "Innovation",
-            "Early Stage"
-        ],
-        "coordinates": [
-            56.1629,
-            10.2039
-        ]
-    },
-    {
-        "id": "futurebox",
-        "name": "Futurebox",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/futurebox.dk",
-        "website": "https://futurebox.dk",
-        "portfolioUrl": "https://futurebox.dk/startups",
-        "location": "Lyngby, Denmark",
-        "founded": 2016,
-        "description": "Leading deep tech incubator in DTU Science Park. 20-month intensive program.",
-        "focus": [
-            "Deep Tech",
-            "Climate Tech",
-            "Hardware"
-        ],
-        "coordinates": [
-            55.7856,
-            12.5234
-        ]
-    },
-    {
-        "id": "rainmaking",
-        "name": "Rainmaking",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/rainmaking.io",
-        "website": "https://rainmaking.io",
-        "portfolioUrl": "https://rainmaking.io/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2007,
-        "description": "Global startup accelerator and venture fund. FinTech, Net Zero, Smart City focus.",
-        "focus": [
-            "FinTech",
-            "Climate Tech",
-            "Smart City"
-        ],
-        "coordinates": [
-            55.6712,
-            12.5856
-        ]
-    },
-    {
-        "id": "cse-incubator",
-        "name": "Copenhagen School of Entrepreneurship",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/cse.cbs.dk",
-        "website": "https://cse.cbs.dk",
-        "portfolioUrl": "https://cse.cbs.dk/startups",
-        "location": "Copenhagen, Denmark",
-        "founded": 2007,
-        "description": "CBS entrepreneurial hub. Programs for student and research-based founders.",
-        "focus": [
-            "Student Founders",
-            "Research",
-            "All Sectors"
-        ],
-        "coordinates": [
-            55.6812,
-            12.5312
-        ]
-    },
-    {
-        "id": "scion-dtu",
-        "name": "Scion DTU",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/sciondtu.dk",
-        "website": "https://sciondtu.dk",
-        "portfolioUrl": "https://sciondtu.dk/companies",
-        "location": "Lyngby, Denmark",
-        "founded": 2004,
-        "description": "DTU's science and technology incubator. Labs and researcher access.",
-        "focus": [
-            "Deep Tech",
-            "Research",
-            "Hardware"
-        ],
-        "coordinates": [
-            55.7834,
-            12.5156
-        ]
-    },
-    {
-        "id": "bioinnovation-institute",
-        "name": "BioInnovation Institute",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/bfrisbif.bioincubation.com",
-        "website": "https://bfrisbif.bioincubation.com",
-        "portfolioUrl": "https://bfrisbif.bioincubation.com/venture-lab",
-        "location": "Copenhagen, Denmark",
-        "founded": 2018,
-        "description": "Novo Nordisk Foundation program for life sciences entrepreneurs.",
-        "focus": [
-            "Life Sciences",
-            "Biotech",
-            "Research"
-        ],
-        "coordinates": [
-            55.6934,
-            12.5512
-        ]
-    },
-    {
-        "id": "copenhagen-fintech",
-        "name": "Copenhagen FinTech",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/copenhagenfintech.dk",
-        "website": "https://copenhagenfintech.dk",
-        "portfolioUrl": "https://copenhagenfintech.dk/startups",
-        "location": "Copenhagen, Denmark",
-        "founded": 2016,
-        "description": "FinTech accelerator and ecosystem hub for Denmark.",
-        "focus": [
-            "FinTech",
-            "Banking",
-            "InsurTech"
-        ],
-        "coordinates": [
-            55.6789,
-            12.5745
-        ]
-    },
-    {
-        "id": "startup-wise-guys",
-        "name": "Startup Wise Guys",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/startupwiseguys.com",
-        "website": "https://startupwiseguys.com",
-        "portfolioUrl": "https://startupwiseguys.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2012,
-        "description": "Intensive 5-month program for impact-oriented sustainability companies.",
-        "focus": [
-            "Sustainability",
-            "Impact",
-            "B2B SaaS"
-        ],
-        "coordinates": [
-            55.6767,
-            12.5678
-        ]
-    },
-    {
-        "id": "incuba",
-        "name": "INCUBA",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/incuba.dk",
-        "website": "https://incuba.dk",
-        "portfolioUrl": "https://incuba.dk/startups",
-        "location": "Aarhus, Denmark",
-        "founded": 2004,
-        "description": "Science park hosting startups, scaleups, and innovation departments.",
-        "focus": [
-            "All Sectors",
-            "Community",
-            "Innovation"
-        ],
-        "coordinates": [
-            56.1723,
-            10.1912
-        ]
-    },
-    {
-        "id": "scale-incubator",
-        "name": "Scale Incubator",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/scale-incubator.com",
-        "website": "https://scale-incubator.com",
-        "portfolioUrl": "https://scale-incubator.com/startups",
-        "location": "Aalborg, Denmark",
-        "founded": 2019,
-        "description": "Founders-first incubator in Aalborg for high-growth early-stage startups.",
-        "focus": [
-            "Tech",
-            "Sustainability",
-            "Early Stage"
-        ],
-        "coordinates": [
-            57.0488,
-            9.9217
-        ]
-    },
-    {
-        "id": "odense-robotics",
-        "name": "Odense Robotics StartUp Hub",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/odenserobotics.dk",
-        "website": "https://odenserobotics.dk",
-        "portfolioUrl": "https://odenserobotics.dk/members",
-        "location": "Odense, Denmark",
-        "founded": 2015,
-        "description": "Hub for robotics and automation startups. Europe's leading robotics cluster.",
-        "focus": [
-            "Robotics",
-            "Automation",
-            "Hardware"
-        ],
-        "coordinates": [
-            55.4038,
-            10.4024
-        ]
-    },
-    {
-        "id": "game-hub-denmark",
-        "name": "Game Hub Denmark",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/gamehubdenmark.com",
-        "website": "https://gamehubdenmark.com",
-        "portfolioUrl": "https://gamehubdenmark.com/companies",
-        "location": "Grenaa, Denmark",
-        "founded": 2013,
-        "description": "Non-profit supporting game entrepreneurs without taking equity.",
-        "focus": [
-            "Gaming",
-            "Entertainment",
-            "Creative"
-        ],
-        "coordinates": [
-            56.4154,
-            10.8833
-        ]
-    },
-    {
-        "id": "stairways",
-        "name": "Stairways",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/stairways.io",
-        "website": "https://stairways.io",
-        "portfolioUrl": "https://stairways.io/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2018,
-        "description": "Tech startup incubator with focus on scalable B2B sales.",
-        "focus": [
-            "B2B",
-            "SaaS",
-            "Sales"
-        ],
-        "coordinates": [
-            55.6823,
-            12.5634
-        ]
-    },
-    {
-        "id": "antler",
-        "name": "Antler",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/antler.co",
-        "website": "https://antler.co",
-        "portfolioUrl": "https://antler.co/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2017,
-        "description": "Global day-zero VC. Residency program for co-founder matching.",
-        "focus": [
-            "Pre-seed",
-            "Tech",
-            "All Sectors"
-        ],
-        "coordinates": [
-            55.6745,
-            12.5623
-        ]
-    },
-    {
-        "id": "go-grow",
-        "name": "Go Grow",
-        "type": "investor",
-        "category": "Accelerator",
-        "logo": "https://logo.clearbit.com/gogrow.dk",
-        "website": "https://gogrow.dk",
-        "portfolioUrl": "https://gogrow.dk/startups",
-        "location": "Copenhagen, Denmark",
-        "founded": 2015,
-        "description": "CBS accelerator for early-stage startups. 7-month program.",
-        "focus": [
-            "Student Founders",
-            "Early Stage",
-            "All Sectors"
-        ],
-        "coordinates": [
-            55.6789,
-            12.5312
-        ]
-    },
-    {
-        "id": "danish-design-center",
-        "name": "Danish Design Center",
-        "type": "investor",
-        "category": "Incubator",
-        "logo": "https://logo.clearbit.com/ddc.dk",
-        "website": "https://ddc.dk",
-        "portfolioUrl": "https://ddc.dk/programs",
-        "location": "Copenhagen, Denmark",
-        "founded": 1978,
-        "description": "Design-driven incubator for startups solving societal challenges.",
-        "focus": [
-            "Design",
-            "Impact",
-            "Sustainability"
-        ],
-        "coordinates": [
-            55.6756,
-            12.5823
-        ]
-    },
-    {
-        "id": "10x-founders",
-        "name": "10x Founders",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/10xfounders.com",
-        "website": "https://10xfounders.com",
-        "portfolioUrl": "https://10xfounders.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2020,
-        "description": "Pre-seed and seed stage VC founded by successful founders.",
-        "focus": [
-            "Tech",
-            "Pre-seed",
-            "Seed"
-        ],
-        "coordinates": [
-            55.6812,
-            12.5678
-        ]
-    },
-    {
-        "id": "nordic-alpha-partners",
-        "name": "Nordic Alpha Partners",
-        "type": "investor",
-        "category": "VC",
-        "logo": "https://logo.clearbit.com/nordicalphapartners.com",
-        "website": "https://nordicalphapartners.com",
-        "portfolioUrl": "https://nordicalphapartners.com/portfolio",
-        "location": "Copenhagen, Denmark",
-        "founded": 2018,
-        "description": "Growth equity fund focused on Nordic tech companies.",
-        "focus": [
-            "Growth",
-            "Tech",
-            "B2B"
-        ],
-        "coordinates": [
-            55.6834,
-            12.5712
-        ]
-    }
+  {
+    "id": "seed-capital",
+    "name": "Seed Capital",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/seedcapital.dk",
+    "website": "https://seedcapital.dk",
+    "portfolioUrl": "https://seedcapital.dk/portfolio",
+    "location": "Højbro Plads 10, 1200 København K, Denmark",
+    "founded": 2006,
+    "description": "Denmark's largest seed-stage VC. Early investor in Trustpilot, Vivino, Lunar.",
+    "focus": [
+      "Tech",
+      "B2B",
+      "SaaS"
+    ],
+    "coordinates": [
+      55.677979,
+      12.579548
+    ]
+  },
+  {
+    "id": "northzone",
+    "name": "Northzone",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/northzone.com",
+    "website": "https://northzone.com",
+    "portfolioUrl": "https://northzone.com/portfolio",
+    "location": "Copenhagen, Denmark",
+    "founded": 1996,
+    "description": "Leading European VC backing bold founders building category-defining companies.",
+    "focus": [
+      "Tech",
+      "Consumer",
+      "Enterprise"
+    ],
+    "coordinates": [
+      55.6781,
+      12.5559
+    ]
+  },
+  {
+    "id": "byfounders",
+    "name": "byFounders",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/byfounders.vc",
+    "website": "https://byfounders.vc",
+    "portfolioUrl": "https://byfounders.vc/companies",
+    "location": "Kanonbådsvej 2, 1437 København K, Denmark",
+    "founded": 2017,
+    "description": "For founders, by founders. Nordic/Baltic early-stage VC with 300+ founder advisors.",
+    "focus": [
+      "Tech",
+      "SaaS",
+      "Marketplace"
+    ],
+    "coordinates": [
+      55.679349,
+      12.606441
+    ]
+  },
+  {
+    "id": "preseed-ventures",
+    "name": "PreSeed Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/preseedventures.dk",
+    "website": "https://preseedventures.dk",
+    "portfolioUrl": "https://preseedventures.dk/portfolio",
+    "location": "Diplomvej 381, 2800 Kongens Lyngby, Denmark",
+    "founded": 2005,
+    "description": "One of the most active early-stage VCs in Denmark, from DTU Science Park.",
+    "focus": [
+      "Deep Tech",
+      "B2B",
+      "Hardware"
+    ],
+    "coordinates": [
+      55.782762,
+      12.512894
+    ]
+  },
+  {
+    "id": "eifo",
+    "name": "EIFO (Vækstfonden)",
+    "type": "supporter",
+    "category": "Government Fund",
+    "logo": "https://logo.clearbit.com/eifo.dk",
+    "website": "https://eifo.dk",
+    "portfolioUrl": "https://eifo.dk/cases",
+    "location": "Haifagade 3, 2150 Nordhavn, Denmark",
+    "founded": 1992,
+    "description": "Denmark's national export and investment fund. Supports companies across all sectors.",
+    "focus": [
+      "All sectors",
+      "Export",
+      "Growth"
+    ],
+    "coordinates": [
+      55.712559,
+      12.595181
+    ]
+  },
+  {
+    "id": "novo-holdings",
+    "name": "Novo Holdings",
+    "type": "investor",
+    "category": "Corporate VC",
+    "logo": "https://logo.clearbit.com/novoholdings.dk",
+    "website": "https://novoholdings.dk",
+    "portfolioUrl": "https://novoholdings.dk/investments",
+    "location": "Tuborg Havnevej 19, 2900 Hellerup, Denmark",
+    "founded": 1999,
+    "description": "Denmark's largest life sciences investor. One of Europe's biggest biotech portfolios.",
+    "focus": [
+      "Life Sciences",
+      "Biotech",
+      "Healthcare"
+    ],
+    "coordinates": [
+      55.727107,
+      12.584053
+    ]
+  },
+  {
+    "id": "heartcore-capital",
+    "name": "Heartcore Capital",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/heartcore.com",
+    "website": "https://heartcore.com",
+    "portfolioUrl": "https://heartcore.com/companies",
+    "location": "Frederiksgade 7, 1265 København K, Denmark",
+    "founded": 2017,
+    "description": "Early-stage European VC. Consumer, SaaS, marketplace focus. 100+ investments.",
+    "focus": [
+      "Consumer",
+      "SaaS",
+      "Marketplace"
+    ],
+    "coordinates": [
+      55.685417,
+      12.589754
+    ]
+  },
+  {
+    "id": "accelerace",
+    "name": "Accelerace",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/accelerace.io",
+    "website": "https://accelerace.io",
+    "portfolioUrl": "https://accelerace.io/portfolio",
+    "location": "Fruebjergvej 3, 2100 København Ø, Denmark",
+    "founded": 2008,
+    "description": "Top Nordic accelerator and pre-seed investor. Alumni include Trustpilot, Labster.",
+    "focus": [
+      "Pre-seed",
+      "Tech",
+      "SaaS"
+    ],
+    "coordinates": [
+      55.715679,
+      12.549398
+    ]
+  },
+  {
+    "id": "lundbeckfonden-ventures",
+    "name": "Lundbeckfonden Ventures",
+    "type": "investor",
+    "category": "Corporate VC",
+    "logo": "https://logo.clearbit.com/lundbeckfonden.com",
+    "website": "https://lundbeckfonden.com/en/lundbeckfonden-ventures",
+    "portfolioUrl": "https://lundbeckfonden.com/en/lundbeckfonden-ventures/portfolio",
+    "location": "Scherfigsvej 7, 2100 København Ø, Denmark",
+    "founded": 2008,
+    "description": "Evergreen life science venture fund owned by Lundbeck Foundation.",
+    "focus": [
+      "Life Sciences",
+      "Biotech",
+      "MedTech"
+    ],
+    "coordinates": [
+      55.721895,
+      12.57991
+    ]
+  },
+  {
+    "id": "2150",
+    "name": "2150",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/2150.vc",
+    "website": "https://2150.vc",
+    "portfolioUrl": "https://2150.vc/portfolio",
+    "location": "Southamptongade 4, 2150 Nordhavn, Denmark",
+    "founded": 2021,
+    "description": "Backs technology companies building sustainable cities of the future.",
+    "focus": [
+      "Urban Tech",
+      "Climate Tech",
+      "Sustainability"
+    ],
+    "coordinates": [
+      55.708014,
+      12.593389
+    ]
+  },
+  {
+    "id": "nordic-eye",
+    "name": "Nordic Eye Venture Capital",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/nordiceye.com",
+    "website": "https://nordiceye.com",
+    "portfolioUrl": "https://nordiceye.com/portfolio",
+    "location": "Havnegade 55, 1058 København K, Denmark",
+    "founded": 2012,
+    "description": "Early-growth tech and lifestyle investments. Copenhagen, Zurich, London, SF offices.",
+    "focus": [
+      "Consumer",
+      "Lifestyle",
+      "Tech"
+    ],
+    "coordinates": [
+      55.678882,
+      12.592646
+    ]
+  },
+  {
+    "id": "dreamcraft-ventures",
+    "name": "Dreamcraft Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/dreamcraft.vc",
+    "website": "https://dreamcraft.vc",
+    "portfolioUrl": "https://dreamcraft.vc/portfolio",
+    "location": "Sankt Annæ Plads 28, 1250 København, Denmark",
+    "founded": 2020,
+    "description": "Operator-led VC backing gaming, SaaS, and B2C companies.",
+    "focus": [
+      "Gaming",
+      "SaaS",
+      "B2C"
+    ],
+    "coordinates": [
+      55.680759,
+      12.593587
+    ]
+  },
+  {
+    "id": "kompas-vc",
+    "name": "KOMPAS VC",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/kompas.vc",
+    "website": "https://kompas.vc",
+    "portfolioUrl": "https://kompas.vc/portfolio",
+    "location": "Breeltevej 18, 2970 Hørsholm, Denmark",
+    "founded": 2022,
+    "description": "Early-stage founders using technology to decarbonize building and manufacturing.",
+    "focus": [
+      "Climate Tech",
+      "Construction",
+      "Industrial"
+    ],
+    "coordinates": [
+      55.897529,
+      12.484345
+    ]
+  },
+  {
+    "id": "scale-capital",
+    "name": "Scale Capital",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/scalecapital.vc",
+    "website": "https://scalecapital.vc",
+    "portfolioUrl": "https://scalecapital.vc/portfolio",
+    "location": "Amerika Plads 26, 2100 København Ø, Denmark",
+    "founded": 2019,
+    "description": "Danish venture fund helping Nordic B2B tech startups succeed in the US.",
+    "focus": [
+      "B2B",
+      "SaaS",
+      "US Expansion"
+    ],
+    "coordinates": [
+      55.6776,
+      12.5645
+    ]
+  },
+  {
+    "id": "climentum-capital",
+    "name": "Climentum Capital",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/climentum.com",
+    "website": "https://climentum.com",
+    "portfolioUrl": "https://climentum.com/portfolio",
+    "location": "Højbro Plads 10, 1200 København K, Denmark",
+    "founded": 2022,
+    "description": "European hardtech and software startups at Seed+ and Series A for climate.",
+    "focus": [
+      "Climate Tech",
+      "HardTech",
+      "Software"
+    ],
+    "coordinates": [
+      55.677979,
+      12.579548
+    ]
+  },
+  {
+    "id": "unconventional-ventures",
+    "name": "Unconventional Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/unconventional.vc",
+    "website": "https://unconventional.vc",
+    "portfolioUrl": "https://unconventional.vc/portfolio",
+    "location": "Luganovej 20, 2300 København, Denmark",
+    "founded": 2019,
+    "description": "Early-stage funding for scalable impact tech startups by underrepresented groups.",
+    "focus": [
+      "Impact",
+      "Diversity",
+      "Tech"
+    ],
+    "coordinates": [
+      55.65793,
+      12.618055
+    ]
+  },
+  {
+    "id": "sunstone",
+    "name": "Sunstone Life Science Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/sunstone.eu",
+    "website": "https://sunstone.eu",
+    "portfolioUrl": "https://sunstone.eu/portfolio",
+    "location": "Nordre Fasanvej 215, 2000 Frederiksberg, Denmark",
+    "founded": 2007,
+    "description": "Independent European VC enabling life science therapeutics innovations.",
+    "focus": [
+      "Life Sciences",
+      "Therapeutics",
+      "Biotech"
+    ],
+    "coordinates": [
+      55.695982,
+      12.534924
+    ]
+  },
+  {
+    "id": "crista-galli",
+    "name": "Crista Galli Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/cristagalli.vc",
+    "website": "https://cristagalli.vc",
+    "portfolioUrl": "https://cristagalli.vc/portfolio",
+    "location": "Copenhagen, Denmark",
+    "founded": 2018,
+    "description": "Investing in ambitious European healthtech companies at Seed and Series A.",
+    "focus": [
+      "HealthTech",
+      "Digital Health",
+      "MedTech"
+    ],
+    "coordinates": [
+      55.6734,
+      12.5712
+    ]
+  },
+  {
+    "id": "people-ventures",
+    "name": "People Ventures",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/peopleventures.vc",
+    "website": "https://peopleventures.vc",
+    "portfolioUrl": "https://peopleventures.vc/portfolio",
+    "location": "Frederiksborgade 11, 1360 København, Denmark",
+    "founded": 2020,
+    "description": "Copenhagen-based seed fund investing across tech sectors.",
+    "focus": [
+      "Tech",
+      "Seed",
+      "B2B"
+    ],
+    "coordinates": [
+      55.6756,
+      12.5667
+    ]
+  },
+  {
+    "id": "borean-innovation",
+    "name": "Borean Innovation",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/borean.dk",
+    "website": "https://borean.dk",
+    "portfolioUrl": "https://borean.dk/portfolio",
+    "location": "Aarhus, Denmark",
+    "founded": 2005,
+    "description": "National innovation incubator providing pre-seed and seed capital.",
+    "focus": [
+      "Deep Tech",
+      "Innovation",
+      "Early Stage"
+    ],
+    "coordinates": [
+      56.1629,
+      10.2039
+    ]
+  },
+  {
+    "id": "futurebox",
+    "name": "Futurebox",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/futurebox.dk",
+    "website": "https://futurebox.dk",
+    "portfolioUrl": "https://futurebox.dk/startups",
+    "location": "Elektrovej 331, 2800 Kongens Lyngby, Denmark",
+    "founded": 2016,
+    "description": "Leading deep tech incubator in DTU Science Park. 20-month intensive program.",
+    "focus": [
+      "Deep Tech",
+      "Climate Tech",
+      "Hardware"
+    ],
+    "coordinates": [
+      55.783613,
+      12.513566
+    ]
+  },
+  {
+    "id": "rainmaking",
+    "name": "Rainmaking",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/rainmaking.io",
+    "website": "https://rainmaking.io",
+    "portfolioUrl": "https://rainmaking.io/portfolio",
+    "location": "Danneskiold-Samsøes Allé 41, 1434 København, Denmark",
+    "founded": 2007,
+    "description": "Global startup accelerator and venture fund. FinTech, Net Zero, Smart City focus.",
+    "focus": [
+      "FinTech",
+      "Climate Tech",
+      "Smart City"
+    ],
+    "coordinates": [
+      55.68054,
+      12.603719
+    ]
+  },
+  {
+    "id": "cse-incubator",
+    "name": "Copenhagen School of Entrepreneurship",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/cse.cbs.dk",
+    "website": "https://cse.cbs.dk",
+    "portfolioUrl": "https://cse.cbs.dk/startups",
+    "location": "Porcelænshaven 26, 2000 Frederiksberg, Denmark",
+    "founded": 2007,
+    "description": "CBS entrepreneurial hub. Programs for student and research-based founders.",
+    "focus": [
+      "Student Founders",
+      "Research",
+      "All Sectors"
+    ],
+    "coordinates": [
+      55.677793,
+      12.521451
+    ]
+  },
+  {
+    "id": "scion-dtu",
+    "name": "Scion DTU",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/sciondtu.dk",
+    "website": "https://sciondtu.dk",
+    "portfolioUrl": "https://sciondtu.dk/companies",
+    "location": "Venlighedsvej 10, 2970 Hørsholm, Denmark",
+    "founded": 2004,
+    "description": "DTU's science and technology incubator. Labs and researcher access.",
+    "focus": [
+      "Deep Tech",
+      "Research",
+      "Hardware"
+    ],
+    "coordinates": [
+      55.873494,
+      12.489892
+    ]
+  },
+  {
+    "id": "bioinnovation-institute",
+    "name": "BioInnovation Institute",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/bfrisbif.bioincubation.com",
+    "website": "https://bfrisbif.bioincubation.com",
+    "portfolioUrl": "https://bfrisbif.bioincubation.com/venture-lab",
+    "location": "Ole Maaløes Vej 3, 2200 København N, Denmark",
+    "founded": 2018,
+    "description": "Novo Nordisk Foundation program for life sciences entrepreneurs.",
+    "focus": [
+      "Life Sciences",
+      "Biotech",
+      "Research"
+    ],
+    "coordinates": [
+      55.69883,
+      12.556294
+    ]
+  },
+  {
+    "id": "copenhagen-fintech",
+    "name": "Copenhagen FinTech",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/copenhagenfintech.dk",
+    "website": "https://copenhagenfintech.dk",
+    "portfolioUrl": "https://copenhagenfintech.dk/startups",
+    "location": "Applebys Plads 7, 1411 København K, Denmark",
+    "founded": 2016,
+    "description": "FinTech accelerator and ecosystem hub for Denmark.",
+    "focus": [
+      "FinTech",
+      "Banking",
+      "InsurTech"
+    ],
+    "coordinates": [
+      55.67111,
+      12.585438
+    ]
+  },
+  {
+    "id": "startup-wise-guys",
+    "name": "Startup Wise Guys",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/startupwiseguys.com",
+    "website": "https://startupwiseguys.com",
+    "portfolioUrl": "https://startupwiseguys.com/portfolio",
+    "location": "Hovmarksvej 78, 2920 Charlottenlund, Denmark",
+    "founded": 2012,
+    "description": "Intensive 5-month program for impact-oriented sustainability companies.",
+    "focus": [
+      "Sustainability",
+      "Impact",
+      "B2B SaaS"
+    ],
+    "coordinates": [
+      55.766664,
+      12.555631
+    ]
+  },
+  {
+    "id": "incuba",
+    "name": "INCUBA",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/incuba.dk",
+    "website": "https://incuba.dk",
+    "portfolioUrl": "https://incuba.dk/startups",
+    "location": "Åbogade 15, 8200 Aarhus N, Denmark",
+    "founded": 2004,
+    "description": "Science park hosting startups, scaleups, and innovation departments.",
+    "focus": [
+      "All Sectors",
+      "Community",
+      "Innovation"
+    ],
+    "coordinates": [
+      56.172331,
+      10.187798
+    ]
+  },
+  {
+    "id": "scale-incubator",
+    "name": "Scale Incubator",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/scale-incubator.com",
+    "website": "https://scale-incubator.com",
+    "portfolioUrl": "https://scale-incubator.com/startups",
+    "location": "Nålemagervej 1, 9000 Aalborg, Denmark",
+    "founded": 2019,
+    "description": "Founders-first incubator in Aalborg for high-growth early-stage startups.",
+    "focus": [
+      "Tech",
+      "Sustainability",
+      "Early Stage"
+    ],
+    "coordinates": [
+      57.035304,
+      9.92756
+    ]
+  },
+  {
+    "id": "odense-robotics",
+    "name": "Odense Robotics StartUp Hub",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/odenserobotics.dk",
+    "website": "https://odenserobotics.dk",
+    "portfolioUrl": "https://odenserobotics.dk/members",
+    "location": "Munkebjergvænget 1, 5230 Odense M, Denmark",
+    "founded": 2015,
+    "description": "Hub for robotics and automation startups. Europe's leading robotics cluster.",
+    "focus": [
+      "Robotics",
+      "Automation",
+      "Hardware"
+    ],
+    "coordinates": [
+      55.37318,
+      10.408896
+    ]
+  },
+  {
+    "id": "game-hub-denmark",
+    "name": "Game Hub Denmark",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/gamehubdenmark.com",
+    "website": "https://gamehubdenmark.com",
+    "portfolioUrl": "https://gamehubdenmark.com/companies",
+    "location": "N.P. Josiassens Vej 44a, 8500 Grenå, Denmark",
+    "founded": 2013,
+    "description": "Non-profit supporting game entrepreneurs without taking equity.",
+    "focus": [
+      "Gaming",
+      "Entertainment",
+      "Creative"
+    ],
+    "coordinates": [
+      56.410265,
+      10.886149
+    ]
+  },
+  {
+    "id": "stairways",
+    "name": "Stairways",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/stairways.io",
+    "website": "https://stairways.io",
+    "portfolioUrl": "https://stairways.io/portfolio",
+    "location": "Copenhagen, Denmark",
+    "founded": 2018,
+    "description": "Tech startup incubator with focus on scalable B2B sales.",
+    "focus": [
+      "B2B",
+      "SaaS",
+      "Sales"
+    ],
+    "coordinates": [
+      55.6823,
+      12.5634
+    ]
+  },
+  {
+    "id": "antler",
+    "name": "Antler",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/antler.co",
+    "website": "https://antler.co",
+    "portfolioUrl": "https://antler.co/portfolio",
+    "location": "Copenhagen, Denmark",
+    "founded": 2017,
+    "description": "Global day-zero VC. Residency program for co-founder matching.",
+    "focus": [
+      "Pre-seed",
+      "Tech",
+      "All Sectors"
+    ],
+    "coordinates": [
+      55.6745,
+      12.5623
+    ]
+  },
+  {
+    "id": "go-grow",
+    "name": "Go Grow",
+    "type": "supporter",
+    "category": "Accelerator",
+    "logo": "https://logo.clearbit.com/gogrow.dk",
+    "website": "https://gogrow.dk",
+    "portfolioUrl": "https://gogrow.dk/startups",
+    "location": "Porcelænshaven 26, 2000 Frederiksberg, Denmark",
+    "founded": 2015,
+    "description": "CBS accelerator for early-stage startups. 7-month program.",
+    "focus": [
+      "Student Founders",
+      "Early Stage",
+      "All Sectors"
+    ],
+    "coordinates": [
+      55.677793,
+      12.521451
+    ]
+  },
+  {
+    "id": "danish-design-center",
+    "name": "Danish Design Center",
+    "type": "supporter",
+    "category": "Incubator",
+    "logo": "https://logo.clearbit.com/ddc.dk",
+    "website": "https://ddc.dk",
+    "portfolioUrl": "https://ddc.dk/programs",
+    "location": "Bryghuspladsen 8, 1473 København, Denmark",
+    "founded": 1978,
+    "description": "Design-driven incubator for startups solving societal challenges.",
+    "focus": [
+      "Design",
+      "Impact",
+      "Sustainability"
+    ],
+    "coordinates": [
+      55.672104,
+      12.578912
+    ]
+  },
+  {
+    "id": "10x-founders",
+    "name": "10x Founders",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/10xfounders.com",
+    "website": "https://10xfounders.com",
+    "portfolioUrl": "https://10xfounders.com/portfolio",
+    "location": "Copenhagen, Denmark",
+    "founded": 2020,
+    "description": "Pre-seed and seed stage VC founded by successful founders.",
+    "focus": [
+      "Tech",
+      "Pre-seed",
+      "Seed"
+    ],
+    "coordinates": [
+      55.6812,
+      12.5678
+    ]
+  },
+  {
+    "id": "nordic-alpha-partners",
+    "name": "Nordic Alpha Partners",
+    "type": "investor",
+    "category": "VC",
+    "logo": "https://logo.clearbit.com/nordicalphapartners.com",
+    "website": "https://nordicalphapartners.com",
+    "portfolioUrl": "https://nordicalphapartners.com/portfolio",
+    "location": "Strandvejen 114A, 2900 Hellerup, Denmark",
+    "founded": 2018,
+    "description": "Growth equity fund focused on Nordic tech companies.",
+    "focus": [
+      "Growth",
+      "Tech",
+      "B2B"
+    ],
+    "coordinates": [
+      55.735156,
+      12.575446
+    ]
+  }
 ]

@@ -60,9 +60,9 @@ app.post('/api/companies', async (req, res) => {
         }
 
         // Validate type
-        if (!['startup', 'investor'].includes(newCompany.type)) {
+        if (!['startup', 'investor', 'supporter'].includes(newCompany.type)) {
             return res.status(400).json({
-                error: 'Invalid type. Must be "startup" or "investor"'
+                error: 'Invalid type. Must be "startup", "investor", or "supporter"'
             });
         }
 

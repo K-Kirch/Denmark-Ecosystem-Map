@@ -38,9 +38,9 @@ export function initPanel() {
   panelClose.addEventListener('click', closePanel);
   panelOverlay.addEventListener('click', closePanel);
 
-  // Close on Escape key
+  // Close on Escape key (only if panel is open)
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' && panel.classList.contains('open')) {
       closePanel();
     }
   });
@@ -50,11 +50,24 @@ export function initPanel() {
  * Generate the HTML content for the panel
  */
 function generatePanelHTML(company) {
-  const isInvestor = company.type === 'investor';
-  const typeLabel = isInvestor ? (company.category || 'Investor') : 'Startup';
-  const typeIcon = company.type === 'startup'
-    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'
-    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>';
+  const type = company.type;
+  const isInvestor = type === 'investor';
+  const isSupporter = type === 'supporter';
+  const isStartup = type === 'startup';
+
+  let typeLabel = 'Startup';
+  if (isInvestor) typeLabel = company.category || 'Investor';
+  if (isSupporter) typeLabel = company.category || 'Supporter';
+
+  let typeIcon = '';
+  if (isStartup) {
+    typeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+  } else if (isInvestor) {
+    typeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>';
+  } else {
+    // Supporter icon (Building/Handshake)
+    typeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 10a2 2 0 11-4 0v7h4v-7z"/></svg>';
+  }
 
   // Handle missing data gracefully
   const founded = company.founded || '-';
@@ -64,26 +77,9 @@ function generatePanelHTML(company) {
   const description = company.description || 'No description available.';
   const website = company.website || company.portfolioUrl || '#';
 
-  // Stats section - different for investors vs startups
+  // Stats section
   let statsHtml = '';
-  if (isInvestor) {
-    statsHtml = `
-      <div class="panel-stats fade-in">
-        <div class="panel-stat">
-          <span class="panel-stat-value">${founded}</span>
-          <span class="panel-stat-label">Founded</span>
-        </div>
-        <div class="panel-stat">
-          <span class="panel-stat-value">${location.split(',')[0]}</span>
-          <span class="panel-stat-label">Location</span>
-        </div>
-        <div class="panel-stat">
-          <span class="panel-stat-value">${company.category || 'VC'}</span>
-          <span class="panel-stat-label">Type</span>
-        </div>
-      </div>
-    `;
-  } else {
+  if (isStartup) {
     statsHtml = `
       <div class="panel-stats fade-in">
         <div class="panel-stat">
@@ -97,6 +93,24 @@ function generatePanelHTML(company) {
         <div class="panel-stat">
           <span class="panel-stat-value">${industry.split(',')[0].trim()}</span>
           <span class="panel-stat-label">Industry</span>
+        </div>
+      </div>
+    `;
+  } else {
+    // Investor or Supporter
+    statsHtml = `
+      <div class="panel-stats fade-in">
+        <div class="panel-stat">
+          <span class="panel-stat-value">${founded}</span>
+          <span class="panel-stat-label">Founded</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-value">${location.split(',')[0]}</span>
+          <span class="panel-stat-label">Location</span>
+        </div>
+        <div class="panel-stat">
+          <span class="panel-stat-value">${company.category || (isInvestor ? 'VC' : 'Supporter')}</span>
+          <span class="panel-stat-label">Type</span>
         </div>
       </div>
     `;

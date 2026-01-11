@@ -14,33 +14,38 @@ export async function loadCompanies() {
         return companiesCache;
     }
 
+    let allData = [];
+
+    // Load companies.json (startups)
     try {
-        // Try loading from companies.json first
         const response = await fetch('/data/companies.json');
         if (response.ok) {
-            companiesCache = await response.json();
-            console.log(`Loaded ${companiesCache.length} companies from data file`);
-            return companiesCache;
+            const companies = await response.json();
+            allData = allData.concat(companies);
+            console.log(`Loaded ${companies.length} entries from companies.json`);
         }
     } catch (e) {
-        console.warn('Could not load companies.json, using fallback data');
+        console.warn('Could not load companies.json');
     }
 
-    // Fallback to investors.json if companies.json doesn't exist
+    // Load investors.json (investors + supporters)
     try {
         const response = await fetch('/data/investors.json');
         if (response.ok) {
-            companiesCache = await response.json();
-            console.log(`Loaded ${companiesCache.length} investors from seed list`);
-            return companiesCache;
+            const investors = await response.json();
+            allData = allData.concat(investors);
+            console.log(`Loaded ${investors.length} entries from investors.json`);
         }
     } catch (e) {
         console.warn('Could not load investors.json');
     }
 
-    // Final fallback - return empty array
-    console.error('No data files found');
-    companiesCache = [];
+    if (allData.length === 0) {
+        console.error('No data files found');
+    }
+
+    companiesCache = allData;
+    console.log(`Total loaded: ${companiesCache.length} companies/investors/supporters`);
     return companiesCache;
 }
 
@@ -79,6 +84,7 @@ export function getCounts(companies) {
     return {
         startups: companies.filter(c => c.type === 'startup').length,
         investors: companies.filter(c => c.type === 'investor').length,
+        supporters: companies.filter(c => c.type === 'supporter').length,
         total: companies.length
     };
 }

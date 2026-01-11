@@ -41,6 +41,7 @@ function createModalHTML() {
                                 <option value="">Select type...</option>
                                 <option value="startup">Startup</option>
                                 <option value="investor">Investor</option>
+                                <option value="supporter">Supporter</option>
                             </select>
                         </div>
                     </div>
@@ -51,8 +52,12 @@ function createModalHTML() {
                             <input type="url" id="company-website" name="website" placeholder="https://example.com">
                         </div>
                         <div class="form-group">
-                            <label for="company-location">Location *</label>
-                            <input type="text" id="company-location" name="location" required placeholder="e.g., Copenhagen, Denmark">
+                            <label for="company-location">Street Address *</label>
+                            <input type="text" id="company-location" name="location" required placeholder="e.g., Vestergade 10, 1456 Copenhagen">
+                            <div id="location-preview" class="location-preview" style="display: none;">
+                                <span class="preview-icon"></span>
+                                <span class="preview-text"></span>
+                            </div>
                         </div>
                     </div>
                     
@@ -128,6 +133,10 @@ export function initAddCompanyModal(onSuccess) {
 
     // Form submission
     form.addEventListener('submit', handleSubmit);
+
+    // Location verification on blur
+    const locationInput = document.getElementById('company-location');
+    locationInput.addEventListener('blur', verifyLocation);
 }
 
 /**
@@ -149,17 +158,30 @@ export function closeModal() {
         modalEl.classList.remove('open');
         document.body.style.overflow = '';
         document.getElementById('add-company-form').reset();
+
+        // Reset geocoding state
+        const preview = document.getElementById('location-preview');
+        if (preview) preview.style.display = 'none';
+        lastGeocodedLocation = null;
+        lastGeocodedCoords = null;
+        geocodingVerified = false;
     }
 }
 
+// Track geocoding state
+let lastGeocodedLocation = null;
+let lastGeocodedCoords = null;
+let geocodingVerified = false;
+
 /**
  * Geocode a location string using OpenStreetMap Nominatim
+ * Returns { coords, displayName } or null if failed
  */
 async function geocodeLocation(location) {
     try {
         const query = encodeURIComponent(`${location}, Denmark`);
         const response = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
+            `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&addressdetails=1`,
             {
                 headers: {
                     'User-Agent': 'DenmarkEcosystemMap/1.0'
@@ -170,14 +192,60 @@ async function geocodeLocation(location) {
         const data = await response.json();
 
         if (data && data.length > 0) {
-            return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+            return {
+                coords: [parseFloat(data[0].lat), parseFloat(data[0].lon)],
+                displayName: data[0].display_name
+            };
         }
     } catch (error) {
         console.error('Geocoding error:', error);
     }
 
-    // Default to Copenhagen if geocoding fails
-    return [55.6761, 12.5683];
+    return null;
+}
+
+/**
+ * Verify and preview the location
+ */
+async function verifyLocation() {
+    const locationInput = document.getElementById('company-location');
+    const preview = document.getElementById('location-preview');
+    const previewIcon = preview.querySelector('.preview-icon');
+    const previewText = preview.querySelector('.preview-text');
+
+    const location = locationInput.value.trim();
+    if (!location) {
+        preview.style.display = 'none';
+        return;
+    }
+
+    // Show loading
+    preview.style.display = 'flex';
+    preview.className = 'location-preview loading';
+    previewIcon.textContent = '⏳';
+    previewText.textContent = 'Verifying address...';
+
+    const result = await geocodeLocation(location);
+
+    if (result) {
+        lastGeocodedLocation = location;
+        lastGeocodedCoords = result.coords;
+        geocodingVerified = true;
+
+        // Truncate display name for UI
+        const shortName = result.displayName.split(',').slice(0, 3).join(', ');
+
+        preview.className = 'location-preview success';
+        previewIcon.textContent = '✓';
+        previewText.textContent = `Found: ${shortName}`;
+    } else {
+        lastGeocodedCoords = null;
+        geocodingVerified = false;
+
+        preview.className = 'location-preview warning';
+        previewIcon.textContent = '⚠';
+        previewText.textContent = 'Address not found. Please check or be more specific.';
+    }
 }
 
 /**
@@ -199,8 +267,20 @@ async function handleSubmit(e) {
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
 
-        // Geocode the location
-        const coordinates = await geocodeLocation(data.location);
+        // Get coordinates - use cached if already verified, otherwise geocode
+        let coordinates;
+        if (geocodingVerified && lastGeocodedLocation === data.location && lastGeocodedCoords) {
+            coordinates = lastGeocodedCoords;
+        } else {
+            const result = await geocodeLocation(data.location);
+            if (result) {
+                coordinates = result.coords;
+            } else {
+                // Fallback with warning
+                coordinates = [55.6761, 12.5683];
+                showToast('Address could not be verified. Using Copenhagen center.', 'warning');
+            }
+        }
 
         // Build company object
         const company = {
