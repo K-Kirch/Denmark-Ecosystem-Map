@@ -236,6 +236,34 @@ body {
   pointer-events: none;
 }
 
+/* Add Company Button */
+.add-company-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: #fff;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.add-company-btn:hover {
+  box-shadow: var(--shadow-glow-purple);
+  transform: translateY(-1px);
+}
+
+.add-company-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: #fff;
+}
+
 /* ========================================
    Map Container
    ======================================== */
@@ -944,7 +972,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: 500;
-  color: var(--text-primary);
+  color: #fff;
   background: var(--gradient-primary);
   border: none;
   border-radius: var(--radius-full);
