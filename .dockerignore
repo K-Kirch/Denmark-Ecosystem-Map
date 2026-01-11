@@ -1,0 +1,34 @@
+# Dependencies
+node_modules
+
+# Build output (we build in Docker)
+dist
+
+# Development files
+*.log
+.git
+.gitignore
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Scripts (not needed in production)
+scripts/
+
+# Documentation
+*.md
+!README.md
+
+# Test files
+*.test.js
+*.spec.js
+__tests__
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -13,9 +13,14 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-// Data file path
-const DATA_FILE = path.join(__dirname, 'data', 'companies.json');
+// Data file paths - different for dev vs production
+const DATA_DIR = IS_PRODUCTION
+    ? path.join(__dirname, 'dist', 'data')
+    : path.join(__dirname, 'data');
+const COMPANIES_FILE = path.join(DATA_DIR, 'companies.json');
+const INVESTORS_FILE = path.join(DATA_DIR, 'investors.json');
 
 // Middleware
 app.use(express.json());
@@ -31,12 +36,20 @@ app.use((req, res, next) => {
     next();
 });
 
+// Serve static files in production
+if (IS_PRODUCTION) {
+    app.use(express.static(path.join(__dirname, 'dist')));
+
+    // Serve data files
+    app.use('/data', express.static(DATA_DIR));
+}
+
 /**
  * GET /api/companies - Get all companies
  */
 app.get('/api/companies', async (req, res) => {
     try {
-        const data = await fs.readFile(DATA_FILE, 'utf-8');
+        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
         const companies = JSON.parse(data);
         res.json(companies);
     } catch (error) {
@@ -67,7 +80,7 @@ app.post('/api/companies', async (req, res) => {
         }
 
         // Read current data
-        const data = await fs.readFile(DATA_FILE, 'utf-8');
+        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
         const companies = JSON.parse(data);
 
         // Check for duplicate ID
@@ -83,7 +96,7 @@ app.post('/api/companies', async (req, res) => {
         companies.push(newCompany);
 
         // Save back to file
-        await fs.writeFile(DATA_FILE, JSON.stringify(companies, null, 2), 'utf-8');
+        await fs.writeFile(COMPANIES_FILE, JSON.stringify(companies, null, 2), 'utf-8');
 
         console.log(`✓ Added new ${newCompany.type}: ${newCompany.name}`);
 
@@ -103,13 +116,14 @@ app.post('/api/companies', async (req, res) => {
  */
 app.get('/api/stats', async (req, res) => {
     try {
-        const data = await fs.readFile(DATA_FILE, 'utf-8');
+        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
         const companies = JSON.parse(data);
 
         const stats = {
             total: companies.length,
             startups: companies.filter(c => c.type === 'startup').length,
-            investors: companies.filter(c => c.type === 'investor').length
+            investors: companies.filter(c => c.type === 'investor').length,
+            supporters: companies.filter(c => c.type === 'supporter').length
         };
 
         res.json(stats);
@@ -119,13 +133,20 @@ app.get('/api/stats', async (req, res) => {
     }
 });
 
+// SPA fallback - serve index.html for all non-API routes in production
+if (IS_PRODUCTION) {
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    });
+}
+
 // Start server
 app.listen(PORT, () => {
     console.log(`
 ╔═══════════════════════════════════════════════╗
 ║     Denmark Ecosystem Map API Server          ║
 ║     Running on http://localhost:${PORT}          ║
+║     Mode: ${IS_PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'}                        ║
 ╚═══════════════════════════════════════════════╝
     `);
 });
-
