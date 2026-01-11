@@ -44,8 +44,15 @@ export async function loadCompanies() {
         console.error('No data files found');
     }
 
-    companiesCache = allData;
-    console.log(`Total loaded: ${companiesCache.length} companies/investors/supporters`);
+    // Filter out inactive companies (bankrupt, closed, etc.)
+    const activeCompanies = allData.filter(c => c.status !== 'inactive');
+    const inactiveCount = allData.length - activeCompanies.length;
+    if (inactiveCount > 0) {
+        console.log(`Filtered out ${inactiveCount} inactive companies`);
+    }
+
+    companiesCache = activeCompanies;
+    console.log(`Total active: ${companiesCache.length} companies/investors/supporters`);
     return companiesCache;
 }
 

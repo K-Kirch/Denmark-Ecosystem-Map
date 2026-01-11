@@ -21,6 +21,7 @@ const DATA_DIR = IS_PRODUCTION
     : path.join(__dirname, 'data');
 const COMPANIES_FILE = path.join(DATA_DIR, 'companies.json');
 const INVESTORS_FILE = path.join(DATA_DIR, 'investors.json');
+const REPORTS_FILE = path.join(DATA_DIR, 'reports.json');
 
 // Middleware
 app.use(express.json());
@@ -112,24 +113,141 @@ app.post('/api/companies', async (req, res) => {
 });
 
 /**
- * GET /api/stats - Get statistics
+ * GET /api/stats - Get statistics (excluding inactive companies)
  */
 app.get('/api/stats', async (req, res) => {
     try {
         const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
         const companies = JSON.parse(data);
 
+        // Only count active companies
+        const activeCompanies = companies.filter(c => c.status !== 'inactive');
+
         const stats = {
-            total: companies.length,
-            startups: companies.filter(c => c.type === 'startup').length,
-            investors: companies.filter(c => c.type === 'investor').length,
-            supporters: companies.filter(c => c.type === 'supporter').length
+            total: activeCompanies.length,
+            startups: activeCompanies.filter(c => c.type === 'startup').length,
+            investors: activeCompanies.filter(c => c.type === 'investor').length,
+            supporters: activeCompanies.filter(c => c.type === 'supporter').length
         };
 
         res.json(stats);
     } catch (error) {
         console.error('Error getting stats:', error);
         res.status(500).json({ error: 'Failed to get statistics' });
+    }
+});
+
+/**
+ * PATCH /api/companies/:id/status - Update company status (e.g., mark as inactive)
+ */
+app.patch('/api/companies/:id/status', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({ error: 'Missing required field: status' });
+        }
+
+        // Read current data
+        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
+        const companies = JSON.parse(data);
+
+        // Find the company
+        const companyIndex = companies.findIndex(c => c.id === id);
+        if (companyIndex === -1) {
+            return res.status(404).json({ error: 'Company not found' });
+        }
+
+        // Update status
+        companies[companyIndex].status = status;
+        companies[companyIndex].lastUpdated = new Date().toISOString();
+
+        // Save back to file
+        await fs.writeFile(COMPANIES_FILE, JSON.stringify(companies, null, 2), 'utf-8');
+
+        console.log(`✓ Updated ${companies[companyIndex].name} status to: ${status}`);
+
+        res.json({
+            success: true,
+            message: `Company status updated to ${status}`,
+            company: {
+                id: companies[companyIndex].id,
+                name: companies[companyIndex].name,
+                status: companies[companyIndex].status
+            }
+        });
+
+    } catch (error) {
+        console.error('Error updating company status:', error);
+        res.status(500).json({ error: 'Failed to update company status' });
+    }
+});
+
+/**
+ * GET /api/reports - Get all pending reports (for admin review)
+ */
+app.get('/api/reports', async (req, res) => {
+    try {
+        const data = await fs.readFile(REPORTS_FILE, 'utf-8');
+        const reports = JSON.parse(data);
+        res.json(reports);
+    } catch (error) {
+        console.error('Error reading reports:', error);
+        res.status(500).json({ error: 'Failed to load reports' });
+    }
+});
+
+/**
+ * POST /api/reports - Submit a company report
+ */
+app.post('/api/reports', async (req, res) => {
+    try {
+        const { companyId, companyName, reason } = req.body;
+
+        // Validate required fields
+        if (!companyId || !companyName || !reason) {
+            return res.status(400).json({
+                error: 'Missing required fields: companyId, companyName, reason'
+            });
+        }
+
+        // Read current reports
+        let reports = [];
+        try {
+            const data = await fs.readFile(REPORTS_FILE, 'utf-8');
+            reports = JSON.parse(data);
+        } catch (e) {
+            // File might not exist yet, start with empty array
+            reports = [];
+        }
+
+        // Create new report
+        const newReport = {
+            id: `report-${Date.now()}`,
+            companyId,
+            companyName,
+            reason,
+            reportedAt: new Date().toISOString()
+        };
+
+        // Add to array
+        reports.push(newReport);
+
+        // Save back to file
+        await fs.writeFile(REPORTS_FILE, JSON.stringify(reports, null, 2), 'utf-8');
+
+        console.log(`⚠ Report submitted for: ${companyName}`);
+
+        res.status(201).json({
+            success: true,
+            message: 'Report submitted successfully',
+            report: newReport
+        });
+
+    } catch (error) {
+        console.error('Error submitting report:', error);
+        res.status(500).json({ error: 'Failed to submit report' });
     }
 });
 

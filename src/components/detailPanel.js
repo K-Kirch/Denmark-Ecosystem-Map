@@ -78,6 +78,9 @@ export function openPanel(company) {
     }
   }
 
+  // Setup Report Issue button and form listeners
+  setupReportListeners(company);
+
   // Open panel with animation
   panel.classList.add('open');
   panelOverlay.classList.add('visible');
@@ -108,6 +111,111 @@ export function initPanel() {
       closePanel();
     }
   });
+}
+
+/**
+ * Setup event listeners for the Report Issue button and form
+ */
+function setupReportListeners(company) {
+  const reportBtn = panelContent.querySelector('.panel-report-btn');
+  const reportFormContainer = document.getElementById('report-form-container');
+  const cancelBtn = document.getElementById('cancel-report');
+  const submitBtn = document.getElementById('submit-report');
+  const reasonTextarea = document.getElementById('report-reason');
+
+  if (!reportBtn || !reportFormContainer) return;
+
+  // Show report form when button is clicked
+  reportBtn.addEventListener('click', () => {
+    reportFormContainer.style.display = 'block';
+    reportBtn.style.display = 'none';
+    reasonTextarea.focus();
+  });
+
+  // Cancel report
+  cancelBtn.addEventListener('click', () => {
+    reportFormContainer.style.display = 'none';
+    reportBtn.style.display = 'flex';
+    reasonTextarea.value = '';
+  });
+
+  // Submit report
+  submitBtn.addEventListener('click', async () => {
+    const reason = reasonTextarea.value.trim();
+
+    if (!reason) {
+      showToast('Please provide a reason for the report', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const response = await fetch('/api/reports', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyId: company.id,
+          companyName: company.name,
+          reason
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit report');
+      }
+
+      showToast('Report submitted successfully. Thank you!', 'success');
+      reportFormContainer.style.display = 'none';
+      reportBtn.style.display = 'flex';
+      reasonTextarea.value = '';
+
+    } catch (error) {
+      console.error('Error submitting report:', error);
+      showToast('Failed to submit report. Please try again.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Report';
+    }
+  });
+}
+
+/**
+ * Show a toast notification
+ */
+function showToast(message, type = 'success') {
+  // Check if toast container exists, create if not
+  let container = document.querySelector('.toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.innerHTML = `
+    <span>${message}</span>
+    <button class="toast-close">&times;</button>
+  `;
+
+  container.appendChild(toast);
+
+  // Trigger animation
+  setTimeout(() => toast.classList.add('show'), 10);
+
+  // Close button
+  toast.querySelector('.toast-close').addEventListener('click', () => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  });
+
+  // Auto-remove after 5 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 5000);
 }
 
 /**
@@ -297,5 +405,30 @@ function generatePanelHTML(company) {
         <line x1="10" y1="14" x2="21" y2="3"/>
       </svg>
     </a>
+
+    <button class="panel-report-btn fade-in" data-company-id="${company.id}" data-company-name="${company.name}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Report Issue
+    </button>
+
+    <div class="report-form-container" id="report-form-container" style="display: none;">
+      <div class="report-form">
+        <h4 class="report-form-title">Report an issue with this company</h4>
+        <textarea 
+          id="report-reason" 
+          class="report-textarea" 
+          placeholder="Describe the issue (e.g., company is out of business, website is down, incorrect information...)"
+          rows="3"
+        ></textarea>
+        <div class="report-form-actions">
+          <button class="btn-cancel-report" id="cancel-report">Cancel</button>
+          <button class="btn-submit-report" id="submit-report">Submit Report</button>
+        </div>
+      </div>
+    </div>
   `;
 }
