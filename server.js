@@ -135,7 +135,7 @@ app.get('/api/stats', async (req, res) => {
 
 // SPA fallback - serve index.html for all non-API routes in production
 if (IS_PRODUCTION) {
-    app.get('*', (req, res) => {
+    app.get('/{*splat}', (req, res) => {
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
 }
