@@ -241,16 +241,17 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
   font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: 500;
-  color: #fff;
+  color: #ffffff !important;
   background: var(--gradient-primary);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: all var(--transition-fast);
+  margin-left: var(--space-md);
 }
 
 .add-company-btn:hover {
@@ -259,9 +260,9 @@ body {
 }
 
 .add-company-btn svg {
-  width: 16px;
-  height: 16px;
-  stroke: #fff;
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
 }
 
 /* ========================================
@@ -960,36 +961,7 @@ body {
   height: 16px;
 }
 
-/* ========================================
-   Add Company Button
-   ======================================== */
 
-.add-company-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-lg);
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: #fff;
-  background: var(--gradient-primary);
-  border: none;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  margin-left: var(--space-md);
-}
-
-.add-company-btn:hover {
-  box-shadow: var(--shadow-glow-purple);
-  transform: translateY(-1px);
-}
-
-.add-company-btn svg {
-  width: 18px;
-  height: 18px;
-}
 
 @media (max-width: 768px) {
   .add-company-btn span {

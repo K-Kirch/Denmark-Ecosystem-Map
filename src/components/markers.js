@@ -12,6 +12,22 @@ let markerClusterGroup = null;
 /**
  * Create a custom HTML marker with company logo
  */
+/**
+ * Helper to extract domain from URL
+ */
+function getDomain(url) {
+    try {
+        if (!url) return null;
+        // Handle cases without protocol
+        let href = url;
+        if (!href.startsWith('http')) href = 'http://' + href;
+        const hostname = new URL(href).hostname;
+        return hostname.replace('www.', '');
+    } catch (e) {
+        return null;
+    }
+}
+
 function createMarkerIcon(company) {
     // Create container for custom marker (Pampam style: Rounded Square)
     const container = document.createElement('div');
@@ -19,12 +35,52 @@ function createMarkerIcon(company) {
 
     const logoImg = document.createElement('img');
     logoImg.className = `marker-logo ${company.type}`;
-    logoImg.src = company.logo;
-    logoImg.loading = 'lazy'; // Lazy load images for performance
-    logoImg.onerror = () => {
-        // Fallback if image fails
+    logoImg.loading = 'lazy';
+
+    // Logo Loading Strategy:
+    // 1. company.logo (manual override)
+    // 2. Clearbit Logo API
+    // 3. Google Favicon API
+    // 4. UI Avatars (Initials)
+
+    const domain = getDomain(company.website);
+
+    // Define fallbacks
+    const fallbackToInitials = () => {
         logoImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(company.name)}&background=random&color=fff&size=64`;
+        logoImg.onerror = null; // Stop chain
     };
+
+    const fallbackToGoogle = () => {
+        if (domain) {
+            logoImg.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+            logoImg.onerror = fallbackToInitials;
+        } else {
+            fallbackToInitials();
+        }
+    };
+
+    const loadPrimaryLogo = () => {
+        if (company.logo) {
+            logoImg.src = company.logo;
+            logoImg.onerror = () => {
+                if (domain) {
+                    logoImg.src = `https://logo.clearbit.com/${domain}`;
+                    logoImg.onerror = fallbackToGoogle;
+                } else {
+                    fallbackToInitials();
+                }
+            };
+        } else if (domain) {
+            logoImg.src = `https://logo.clearbit.com/${domain}`;
+            logoImg.onerror = fallbackToGoogle;
+        } else {
+            fallbackToInitials();
+        }
+    };
+
+    // Start loading
+    loadPrimaryLogo();
 
     container.appendChild(logoImg);
 

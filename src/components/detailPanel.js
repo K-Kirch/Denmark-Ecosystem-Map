@@ -8,11 +8,75 @@ const panelClose = document.getElementById('panel-close');
 const panelOverlay = document.getElementById('panel-overlay');
 
 /**
+ * Helper to extract domain from URL
+ */
+function getDomain(url) {
+  try {
+    if (!url) return null;
+    let href = url;
+    if (!href.startsWith('http')) href = 'http://' + href;
+    const hostname = new URL(href).hostname;
+    return hostname.replace('www.', '');
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
  * Open the detail panel with company data
  */
 export function openPanel(company) {
   // Generate panel HTML
   panelContent.innerHTML = generatePanelHTML(company);
+
+  // Helper for initials avatar
+  const getInitialsAvatar = () =>
+    `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2312121a%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22%238B5CF6%22>${company.name.charAt(0)}</text></svg>`;
+
+  // Handle Logo Loading Strategy (Clearbit -> Google -> Initials)
+  const img = panelContent.querySelector('.panel-logo');
+  if (img) {
+    const domain = getDomain(company.website);
+
+    const loadGoogle = () => {
+      if (domain) {
+        img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+        img.onerror = () => { img.src = getInitialsAvatar(); };
+      } else {
+        img.src = getInitialsAvatar();
+      }
+    };
+
+    const loadClearbit = () => {
+      if (domain) {
+        img.src = `https://logo.clearbit.com/${domain}`;
+        img.onerror = loadGoogle;
+      } else {
+        img.src = getInitialsAvatar();
+      }
+    };
+
+    // If manual logo fails or isn't present, start chain
+    img.onerror = () => {
+      if (company.logo) {
+        // If manual logo failed, try auto discovery
+        loadClearbit();
+      } else {
+        // Should have started with Clearbit, so go to Google
+        loadGoogle();
+      }
+    };
+
+    // Initial load
+    if (!company.logo) {
+      if (domain) {
+        img.src = `https://logo.clearbit.com/${domain}`;
+        img.onerror = loadGoogle;
+      } else {
+        img.src = getInitialsAvatar();
+      }
+    }
+  }
 
   // Open panel with animation
   panel.classList.add('open');
@@ -192,10 +256,9 @@ function generatePanelHTML(company) {
   return `
     <div class="panel-header fade-in">
       <img 
-        src="${company.logo}" 
+        src="${company.logo || ''}" 
         alt="${company.name}" 
         class="panel-logo ${company.type}"
-        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%2312121a%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22%238B5CF6%22>${company.name.charAt(0)}</text></svg>'"
       />
       <h2 class="panel-name">
         ${company.name}
