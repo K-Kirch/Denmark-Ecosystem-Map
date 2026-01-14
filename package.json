@@ -11,6 +11,8 @@
     "build:prod": "vite build && xcopy /E /I /Y data dist\\data"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.90.1",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3"
