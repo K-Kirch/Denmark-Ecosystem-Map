@@ -1,12 +1,12 @@
 /**
  * Denmark Ecosystem Map - API Server
- * Express server for handling company data API
+ * Express server with Supabase backend
  */
 
 import express from 'express';
-import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,21 +15,28 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-// Data file paths - different for dev vs production
-const DATA_DIR = IS_PRODUCTION
-    ? path.join(__dirname, 'dist', 'data')
-    : path.join(__dirname, 'data');
-const COMPANIES_FILE = path.join(DATA_DIR, 'companies.json');
-const INVESTORS_FILE = path.join(DATA_DIR, 'investors.json');
-const REPORTS_FILE = path.join(DATA_DIR, 'reports.json');
+// ============================================
+// Supabase Client
+// ============================================
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+    console.error('❌ Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables');
+    process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// ============================================
 // Middleware
+// ============================================
 app.use(express.json());
 
 // CORS for development
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     if (req.method === 'OPTIONS') {
         return res.sendStatus(200);
@@ -40,22 +47,81 @@ app.use((req, res, next) => {
 // Serve static files in production
 if (IS_PRODUCTION) {
     app.use(express.static(path.join(__dirname, 'dist')));
-
-    // Serve data files
-    app.use('/data', express.static(DATA_DIR));
 }
+
+// ============================================
+// API Routes
+// ============================================
 
 /**
  * GET /api/companies - Get all companies
  */
 app.get('/api/companies', async (req, res) => {
     try {
-        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
-        const companies = JSON.parse(data);
-        res.json(companies);
+        const { data: companies, error } = await supabase
+            .from('companies')
+            .select('*')
+            .neq('status', 'inactive');
+
+        if (error) throw error;
+
+        // Transform to match existing frontend format
+        const formatted = companies.map(c => ({
+            id: c.id,
+            name: c.name,
+            type: c.type,
+            website: c.website,
+            description: c.description,
+            logo: c.logo,
+            location: c.location,
+            coordinates: c.coordinates,
+            founded: c.founded,
+            employees: c.employees,
+            industries: c.industries || [],
+            cvr: c.cvr,
+            verified: c.verified,
+            source: c.source,
+            status: c.status
+        }));
+
+        res.json(formatted);
     } catch (error) {
         console.error('Error reading companies:', error);
         res.status(500).json({ error: 'Failed to load companies' });
+    }
+});
+
+/**
+ * GET /api/investors - Get all investors
+ */
+app.get('/api/investors', async (req, res) => {
+    try {
+        const { data: investors, error } = await supabase
+            .from('investors')
+            .select('*');
+
+        if (error) throw error;
+
+        // Transform to match existing frontend format
+        const formatted = investors.map(i => ({
+            id: i.id,
+            name: i.name,
+            type: i.type,
+            category: i.category,
+            logo: i.logo,
+            website: i.website,
+            portfolioUrl: i.portfolio_url,
+            location: i.location,
+            coordinates: i.coordinates,
+            founded: i.founded,
+            description: i.description,
+            focus: i.focus || []
+        }));
+
+        res.json(formatted);
+    } catch (error) {
+        console.error('Error reading investors:', error);
+        res.status(500).json({ error: 'Failed to load investors' });
     }
 });
 
@@ -80,31 +146,50 @@ app.post('/api/companies', async (req, res) => {
             });
         }
 
-        // Read current data
-        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
-        const companies = JSON.parse(data);
+        // Generate ID if not provided
+        const id = newCompany.id || newCompany.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
 
-        // Check for duplicate ID
-        if (companies.some(c => c.id === newCompany.id)) {
-            // Generate unique ID
-            newCompany.id = `${newCompany.id}-${Date.now()}`;
+        const companyData = {
+            id: id,
+            name: newCompany.name,
+            type: newCompany.type,
+            website: newCompany.website,
+            description: newCompany.description,
+            logo: newCompany.logo,
+            location: newCompany.location,
+            coordinates: newCompany.coordinates,
+            founded: newCompany.founded,
+            employees: newCompany.employees,
+            industries: newCompany.industries || [],
+            cvr: newCompany.cvr,
+            verified: false,
+            source: 'user-submitted',
+            status: 'active'
+        };
+
+        const { data, error } = await supabase
+            .from('companies')
+            .insert([companyData])
+            .select()
+            .single();
+
+        if (error) {
+            if (error.code === '23505') {
+                // Duplicate key - add timestamp to ID
+                companyData.id = `${id}-${Date.now()}`;
+                const { data: retryData, error: retryError } = await supabase
+                    .from('companies')
+                    .insert([companyData])
+                    .select()
+                    .single();
+                if (retryError) throw retryError;
+                return res.status(201).json({ success: true, company: retryData });
+            }
+            throw error;
         }
 
-        // Add timestamp
-        newCompany.lastUpdated = new Date().toISOString();
-
-        // Add to array
-        companies.push(newCompany);
-
-        // Save back to file
-        await fs.writeFile(COMPANIES_FILE, JSON.stringify(companies, null, 2), 'utf-8');
-
         console.log(`✓ Added new ${newCompany.type}: ${newCompany.name}`);
-
-        res.status(201).json({
-            success: true,
-            company: newCompany
-        });
+        res.status(201).json({ success: true, company: data });
 
     } catch (error) {
         console.error('Error adding company:', error);
@@ -113,24 +198,37 @@ app.post('/api/companies', async (req, res) => {
 });
 
 /**
- * GET /api/stats - Get statistics (excluding inactive companies)
+ * GET /api/stats - Get statistics
  */
 app.get('/api/stats', async (req, res) => {
     try {
-        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
-        const companies = JSON.parse(data);
+        const { count: total } = await supabase
+            .from('companies')
+            .select('*', { count: 'exact', head: true })
+            .neq('status', 'inactive');
 
-        // Only count active companies
-        const activeCompanies = companies.filter(c => c.status !== 'inactive');
+        const { count: startups } = await supabase
+            .from('companies')
+            .select('*', { count: 'exact', head: true })
+            .eq('type', 'startup')
+            .neq('status', 'inactive');
 
-        const stats = {
-            total: activeCompanies.length,
-            startups: activeCompanies.filter(c => c.type === 'startup').length,
-            investors: activeCompanies.filter(c => c.type === 'investor').length,
-            supporters: activeCompanies.filter(c => c.type === 'supporter').length
-        };
+        const { count: investors } = await supabase
+            .from('investors')
+            .select('*', { count: 'exact', head: true });
 
-        res.json(stats);
+        const { count: supporters } = await supabase
+            .from('companies')
+            .select('*', { count: 'exact', head: true })
+            .eq('type', 'supporter')
+            .neq('status', 'inactive');
+
+        res.json({
+            total: (total || 0) + (investors || 0),
+            startups: startups || 0,
+            investors: investors || 0,
+            supporters: supporters || 0
+        });
     } catch (error) {
         console.error('Error getting stats:', error);
         res.status(500).json({ error: 'Failed to get statistics' });
@@ -138,7 +236,7 @@ app.get('/api/stats', async (req, res) => {
 });
 
 /**
- * PATCH /api/companies/:id/status - Update company status (e.g., mark as inactive)
+ * PATCH /api/companies/:id/status - Update company status
  */
 app.patch('/api/companies/:id/status', async (req, res) => {
     try {
@@ -149,33 +247,24 @@ app.patch('/api/companies/:id/status', async (req, res) => {
             return res.status(400).json({ error: 'Missing required field: status' });
         }
 
-        // Read current data
-        const data = await fs.readFile(COMPANIES_FILE, 'utf-8');
-        const companies = JSON.parse(data);
+        const { data, error } = await supabase
+            .from('companies')
+            .update({ status })
+            .eq('id', id)
+            .select()
+            .single();
 
-        // Find the company
-        const companyIndex = companies.findIndex(c => c.id === id);
-        if (companyIndex === -1) {
+        if (error) throw error;
+
+        if (!data) {
             return res.status(404).json({ error: 'Company not found' });
         }
 
-        // Update status
-        companies[companyIndex].status = status;
-        companies[companyIndex].lastUpdated = new Date().toISOString();
-
-        // Save back to file
-        await fs.writeFile(COMPANIES_FILE, JSON.stringify(companies, null, 2), 'utf-8');
-
-        console.log(`✓ Updated ${companies[companyIndex].name} status to: ${status}`);
-
+        console.log(`✓ Updated ${data.name} status to: ${status}`);
         res.json({
             success: true,
             message: `Company status updated to ${status}`,
-            company: {
-                id: companies[companyIndex].id,
-                name: companies[companyIndex].name,
-                status: companies[companyIndex].status
-            }
+            company: { id: data.id, name: data.name, status: data.status }
         });
 
     } catch (error) {
@@ -185,13 +274,28 @@ app.patch('/api/companies/:id/status', async (req, res) => {
 });
 
 /**
- * GET /api/reports - Get all pending reports (for admin review)
+ * GET /api/reports - Get all reports
  */
 app.get('/api/reports', async (req, res) => {
     try {
-        const data = await fs.readFile(REPORTS_FILE, 'utf-8');
-        const reports = JSON.parse(data);
-        res.json(reports);
+        const { data: reports, error } = await supabase
+            .from('reports')
+            .select('*')
+            .order('reported_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Transform to match existing frontend format
+        const formatted = reports.map(r => ({
+            id: r.id,
+            companyId: r.company_id,
+            companyName: r.company_name,
+            reason: r.reason,
+            status: r.status,
+            reportedAt: r.reported_at
+        }));
+
+        res.json(formatted);
     } catch (error) {
         console.error('Error reading reports:', error);
         res.status(500).json({ error: 'Failed to load reports' });
@@ -205,44 +309,39 @@ app.post('/api/reports', async (req, res) => {
     try {
         const { companyId, companyName, reason } = req.body;
 
-        // Validate required fields
         if (!companyId || !companyName || !reason) {
             return res.status(400).json({
                 error: 'Missing required fields: companyId, companyName, reason'
             });
         }
 
-        // Read current reports
-        let reports = [];
-        try {
-            const data = await fs.readFile(REPORTS_FILE, 'utf-8');
-            reports = JSON.parse(data);
-        } catch (e) {
-            // File might not exist yet, start with empty array
-            reports = [];
-        }
-
-        // Create new report
-        const newReport = {
+        const reportData = {
             id: `report-${Date.now()}`,
-            companyId,
-            companyName,
-            reason,
-            reportedAt: new Date().toISOString()
+            company_id: companyId,
+            company_name: companyName,
+            reason: reason,
+            status: 'pending'
         };
 
-        // Add to array
-        reports.push(newReport);
+        const { data, error } = await supabase
+            .from('reports')
+            .insert([reportData])
+            .select()
+            .single();
 
-        // Save back to file
-        await fs.writeFile(REPORTS_FILE, JSON.stringify(reports, null, 2), 'utf-8');
+        if (error) throw error;
 
         console.log(`⚠ Report submitted for: ${companyName}`);
-
         res.status(201).json({
             success: true,
             message: 'Report submitted successfully',
-            report: newReport
+            report: {
+                id: data.id,
+                companyId: data.company_id,
+                companyName: data.company_name,
+                reason: data.reason,
+                reportedAt: data.reported_at
+            }
         });
 
     } catch (error) {
@@ -251,20 +350,25 @@ app.post('/api/reports', async (req, res) => {
     }
 });
 
-// SPA fallback - serve index.html for all non-API routes in production
+// ============================================
+// SPA Fallback
+// ============================================
 if (IS_PRODUCTION) {
     app.get('/{*splat}', (req, res) => {
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
 }
 
-// Start server
+// ============================================
+// Start Server
+// ============================================
 app.listen(PORT, () => {
     console.log(`
 ╔═══════════════════════════════════════════════╗
 ║     Denmark Ecosystem Map API Server          ║
 ║     Running on http://localhost:${PORT}          ║
 ║     Mode: ${IS_PRODUCTION ? 'PRODUCTION' : 'DEVELOPMENT'}                        ║
+║     Database: Supabase                        ║
 ╚═══════════════════════════════════════════════╝
     `);
 });
