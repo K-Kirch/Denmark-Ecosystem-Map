@@ -15,7 +15,8 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "leaflet": "^1.9.4",
-    "leaflet.markercluster": "^1.5.3"
+    "leaflet.markercluster": "^1.5.3",
+    "playwright": "^1.57.0"
   },
   "devDependencies": {
     "vite": "^5.4.0"

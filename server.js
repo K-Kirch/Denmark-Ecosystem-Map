@@ -351,6 +351,176 @@ app.post('/api/reports', async (req, res) => {
 });
 
 // ============================================
+// Verification API Routes
+// ============================================
+
+// Dynamic import for verification module (ESM)
+let verificationModule = null;
+async function getVerificationModule() {
+    if (!verificationModule) {
+        verificationModule = await import('./verification/index.js');
+    }
+    return verificationModule;
+}
+
+/**
+ * GET /api/verify/queue - Get verification queue status
+ * NOTE: Static routes must come BEFORE parameterized routes
+ */
+app.get('/api/verify/queue', async (req, res) => {
+    try {
+        const verification = await getVerificationModule();
+        const status = await verification.getQueueStatus();
+        res.json(status);
+    } catch (error) {
+        console.error('Queue status error:', error);
+        res.status(500).json({ error: 'Failed to get queue status' });
+    }
+});
+
+/**
+ * GET /api/verify/pending - Get companies pending verification
+ */
+app.get('/api/verify/pending', async (req, res) => {
+    try {
+        const limit = parseInt(req.query.limit) || 10;
+        const verification = await getVerificationModule();
+        const pending = await verification.getPendingVerifications(limit);
+        res.json({ count: pending.length, companies: pending });
+    } catch (error) {
+        console.error('Pending verification error:', error);
+        res.status(500).json({ error: 'Failed to get pending verifications' });
+    }
+});
+
+/**
+ * POST /api/verify/batch - Start batch verification (background)
+ */
+app.post('/api/verify/batch', async (req, res) => {
+    try {
+        const { companyIds, limit } = req.body;
+
+        let idsToVerify = companyIds;
+
+        // If no specific IDs provided, get pending ones
+        if (!idsToVerify || idsToVerify.length === 0) {
+            const verification = await getVerificationModule();
+            const pending = await verification.getPendingVerifications(limit || 5);
+            idsToVerify = pending.map(c => c.id);
+        }
+
+        if (idsToVerify.length === 0) {
+            return res.json({
+                success: true,
+                message: 'No companies to verify',
+                total: 0
+            });
+        }
+
+        // Start batch in background (don't await)
+        const verification = await getVerificationModule();
+        verification.batchVerify(idsToVerify, 5000).then(results => {
+            console.log(`Batch verification complete: ${results.successful}/${results.total} successful`);
+        }).catch(err => {
+            console.error('Batch verification failed:', err);
+        });
+
+        res.json({
+            success: true,
+            message: `Started verification of ${idsToVerify.length} companies`,
+            total: idsToVerify.length,
+            companyIds: idsToVerify
+        });
+
+    } catch (error) {
+        console.error('Batch verification error:', error);
+        res.status(500).json({ error: 'Failed to start batch verification' });
+    }
+});
+
+/**
+ * POST /api/verify/:companyId - Verify a single company
+ * NOTE: This parameterized route must come AFTER static routes (queue, pending, batch)
+ */
+app.post('/api/verify/:companyId', async (req, res) => {
+    try {
+        const { companyId } = req.params;
+
+        if (!companyId) {
+            return res.status(400).json({ error: 'Company ID is required' });
+        }
+
+        const verification = await getVerificationModule();
+        const result = await verification.verifyCompany(companyId);
+
+        if (result.success) {
+            res.json({
+                success: true,
+                confidence: result.confidence,
+                classification: result.classification,
+                justification: result.justification,
+                needsReview: result.needsReview,
+                cvr: result.cvr,
+                webPresence: result.webPresence,
+                duration: result.duration
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                error: result.error,
+                companyId
+            });
+        }
+
+    } catch (error) {
+        console.error('Verification error:', error);
+        res.status(500).json({ error: 'Verification failed', details: error.message });
+    }
+});
+
+/**
+ * GET /api/verify/:companyId/result - Get existing verification result
+ */
+app.get('/api/verify/:companyId/result', async (req, res) => {
+    try {
+        const { companyId } = req.params;
+
+        const { data, error } = await supabase
+            .from('verification_results')
+            .select('*')
+            .eq('company_id', companyId)
+            .single();
+
+        if (error || !data) {
+            return res.status(404).json({
+                error: 'No verification result found',
+                companyId
+            });
+        }
+
+        res.json({
+            companyId: data.company_id,
+            confidence: data.confidence_score,
+            classification: data.classification,
+            justification: data.justification,
+            needsReview: data.needs_review,
+            cvr: {
+                number: data.cvr_number,
+                status: data.cvr_status,
+                industryCode: data.industry_code,
+                industryDescription: data.industry_description,
+                legalForm: data.legal_form
+            },
+            verifiedAt: data.verified_at
+        });
+
+    } catch (error) {
+        console.error('Get result error:', error);
+        res.status(500).json({ error: 'Failed to get verification result' });
+    }
+});
+
+// ============================================
 // SPA Fallback
 // ============================================
 if (IS_PRODUCTION) {
