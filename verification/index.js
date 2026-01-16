@@ -232,7 +232,96 @@ export async function getQueueStatus() {
 }
 
 /**
- * Batch verify multiple companies
+ * Rate limit detection state
+ */
+const rateLimitState = {
+    consecutiveSearchFailures: 0,  // Search itself failed (timeout, blocked, etc.)
+    consecutiveFailures: 0,         // Verification errors
+    lastAlertTime: null,
+    isPaused: false
+};
+
+const RATE_LIMIT_THRESHOLDS = {
+    searchFailureLimit: 3,  // 3 consecutive search failures = likely rate limited
+    failureLimit: 3,        // 3 consecutive verification errors = pause
+    pauseDuration: 300000,  // 5 minutes pause when rate limited
+    alertCooldown: 600000   // 10 minutes between alerts
+};
+
+/**
+ * Check if we're likely rate limited and handle it
+ * @param {object} result - Verification result
+ * @param {object} rawCvrData - Raw CVR lookup data to check if search succeeded
+ * @returns {object} { isRateLimited: boolean, shouldPause: boolean, message: string }
+ */
+function checkRateLimit(result, rawCvrData) {
+    // Case 1: Verification itself failed (error thrown)
+    if (!result.success) {
+        rateLimitState.consecutiveFailures++;
+        rateLimitState.consecutiveSearchFailures = 0;
+    }
+    // Case 2: CVR search failed (couldn't even find results - likely blocked)
+    // This is different from "company not found" - check if search itself worked
+    else if (rawCvrData && rawCvrData.error) {
+        // Search had an error (timeout, blocked, etc.)
+        rateLimitState.consecutiveSearchFailures++;
+        rateLimitState.consecutiveFailures = 0;
+    }
+    // Case 3: Search worked but company not found (legitimate miss - NOT rate limiting)
+    else if (!result.cvr?.number && rawCvrData?.success === false) {
+        // This is a legitimate "company not in CVR" - don't count it
+        // Reset the failure counters
+        rateLimitState.consecutiveSearchFailures = 0;
+        rateLimitState.consecutiveFailures = 0;
+        return { isRateLimited: false, shouldPause: false };
+    }
+    // Case 4: Successful verification with CVR
+    else {
+        rateLimitState.consecutiveSearchFailures = 0;
+        rateLimitState.consecutiveFailures = 0;
+        return { isRateLimited: false, shouldPause: false };
+    }
+
+    const isRateLimited =
+        rateLimitState.consecutiveSearchFailures >= RATE_LIMIT_THRESHOLDS.searchFailureLimit ||
+        rateLimitState.consecutiveFailures >= RATE_LIMIT_THRESHOLDS.failureLimit;
+
+    if (isRateLimited) {
+        const message = rateLimitState.consecutiveSearchFailures >= RATE_LIMIT_THRESHOLDS.searchFailureLimit
+            ? `⚠️ RATE LIMIT DETECTED: ${rateLimitState.consecutiveSearchFailures} consecutive CVR searches failed (possible blocking)`
+            : `⚠️ ERROR DETECTED: ${rateLimitState.consecutiveFailures} consecutive verification failures`;
+
+        return { isRateLimited: true, shouldPause: true, message };
+    }
+
+    return { isRateLimited: false, shouldPause: false };
+}
+
+/**
+ * Log rate limit alert (could be extended to send email/webhook)
+ */
+function alertRateLimit(message) {
+    const now = Date.now();
+
+    // Avoid spamming alerts
+    if (rateLimitState.lastAlertTime &&
+        (now - rateLimitState.lastAlertTime) < RATE_LIMIT_THRESHOLDS.alertCooldown) {
+        return;
+    }
+
+    rateLimitState.lastAlertTime = now;
+
+    console.log('\n' + '🚨'.repeat(25));
+    console.log(message);
+    console.log(`Pausing for ${RATE_LIMIT_THRESHOLDS.pauseDuration / 60000} minutes...`);
+    console.log('🚨'.repeat(25) + '\n');
+
+    // TODO: Add webhook/email notification here if desired
+    // Example: await fetch('your-webhook-url', { method: 'POST', body: JSON.stringify({ alert: message }) });
+}
+
+/**
+ * Batch verify multiple companies with rate limit detection
  * @param {string[]} companyIds - Array of company IDs
  * @param {number} delayMs - Delay between verifications
  * @returns {Promise<object>}
@@ -242,6 +331,7 @@ export async function batchVerify(companyIds, delayMs = 5000) {
         total: companyIds.length,
         successful: 0,
         failed: 0,
+        rateLimitPauses: 0,
         results: []
     };
 
@@ -258,6 +348,22 @@ export async function batchVerify(companyIds, delayMs = 5000) {
             results.failed++;
         }
 
+        // Check for rate limiting
+        const rateLimitCheck = checkRateLimit(result);
+        if (rateLimitCheck.isRateLimited) {
+            alertRateLimit(rateLimitCheck.message);
+            results.rateLimitPauses++;
+
+            // Pause for the configured duration
+            console.log(`⏸️ Pausing batch verification for ${RATE_LIMIT_THRESHOLDS.pauseDuration / 60000} minutes...`);
+            await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_THRESHOLDS.pauseDuration));
+
+            // Reset counters after pause
+            rateLimitState.consecutiveNullCvr = 0;
+            rateLimitState.consecutiveFailures = 0;
+            console.log('▶️ Resuming batch verification...');
+        }
+
         // Rate limiting between requests
         if (i < companyIds.length - 1) {
             console.log(`Waiting ${delayMs}ms before next verification...`);
@@ -265,7 +371,115 @@ export async function batchVerify(companyIds, delayMs = 5000) {
         }
     }
 
+    // Log final summary
+    console.log('\n' + '='.repeat(50));
+    console.log('BATCH VERIFICATION COMPLETE');
+    console.log(`Total: ${results.total} | Successful: ${results.successful} | Failed: ${results.failed}`);
+    if (results.rateLimitPauses > 0) {
+        console.log(`⚠️ Rate limit pauses: ${results.rateLimitPauses}`);
+    }
+    console.log('='.repeat(50));
+
     return results;
+}
+
+/**
+ * Parallel batch verification - runs multiple verifications concurrently
+ * @param {string[]} companyIds - Array of company IDs
+ * @param {number} concurrency - Number of parallel workers (default: 3)
+ * @param {number} delayMs - Delay between batches in ms
+ * @returns {Promise<object>}
+ */
+export async function parallelBatchVerify(companyIds, concurrency = 3, delayMs = 2000) {
+    console.log('\n' + '🚀'.repeat(25));
+    console.log(`PARALLEL VERIFICATION: ${companyIds.length} companies with ${concurrency} workers`);
+    console.log('🚀'.repeat(25) + '\n');
+
+    const startTime = Date.now();
+    const results = {
+        total: companyIds.length,
+        successful: 0,
+        failed: 0,
+        rateLimitPauses: 0,
+        results: []
+    };
+
+    // Process in chunks of 'concurrency' size
+    for (let i = 0; i < companyIds.length; i += concurrency) {
+        const chunk = companyIds.slice(i, i + concurrency);
+        const chunkNum = Math.floor(i / concurrency) + 1;
+        const totalChunks = Math.ceil(companyIds.length / concurrency);
+
+        console.log(`\n[Chunk ${chunkNum}/${totalChunks}] Processing ${chunk.length} companies in parallel...`);
+
+        // Run verifications in parallel
+        const chunkResults = await Promise.allSettled(
+            chunk.map(async (id, idx) => {
+                console.log(`  [${i + idx + 1}/${companyIds.length}] Starting: ${id}`);
+                const result = await verifyCompany(id);
+                console.log(`  [${i + idx + 1}/${companyIds.length}] Done: ${id} (${result.confidence}% - ${result.classification})`);
+                return result;
+            })
+        );
+
+        // Process results
+        for (const settled of chunkResults) {
+            if (settled.status === 'fulfilled') {
+                const result = settled.value;
+                results.results.push(result);
+                if (result.success) {
+                    results.successful++;
+                } else {
+                    results.failed++;
+                }
+
+                // Check for rate limiting
+                const rateLimitCheck = checkRateLimit(result, result.cvr);
+                if (rateLimitCheck.isRateLimited) {
+                    alertRateLimit(rateLimitCheck.message);
+                    results.rateLimitPauses++;
+
+                    console.log(`⏸️ Pausing for ${RATE_LIMIT_THRESHOLDS.pauseDuration / 60000} minutes...`);
+                    await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_THRESHOLDS.pauseDuration));
+
+                    rateLimitState.consecutiveSearchFailures = 0;
+                    rateLimitState.consecutiveFailures = 0;
+                    console.log('▶️ Resuming...');
+                }
+            } else {
+                results.failed++;
+                console.error(`  ❌ Error: ${settled.reason?.message || 'Unknown error'}`);
+            }
+        }
+
+        // Delay between chunks (not between individual requests)
+        if (i + concurrency < companyIds.length) {
+            console.log(`  Waiting ${delayMs}ms before next chunk...`);
+            await new Promise(resolve => setTimeout(resolve, delayMs));
+        }
+    }
+
+    const duration = Date.now() - startTime;
+    const avgTime = duration / results.total;
+
+    console.log('\n' + '🏁'.repeat(25));
+    console.log('PARALLEL BATCH COMPLETE');
+    console.log(`Total: ${results.total} | Successful: ${results.successful} | Failed: ${results.failed}`);
+    console.log(`Duration: ${(duration / 1000).toFixed(1)}s | Avg: ${(avgTime / 1000).toFixed(1)}s per company`);
+    if (results.rateLimitPauses > 0) {
+        console.log(`⚠️ Rate limit pauses: ${results.rateLimitPauses}`);
+    }
+    console.log('🏁'.repeat(25));
+
+    return results;
+}
+
+// Export rate limit state for monitoring
+export function getRateLimitStatus() {
+    return {
+        ...rateLimitState,
+        thresholds: RATE_LIMIT_THRESHOLDS
+    };
 }
 
 // Export for direct usage

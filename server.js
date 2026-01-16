@@ -439,6 +439,52 @@ app.post('/api/verify/batch', async (req, res) => {
 });
 
 /**
+ * POST /api/verify/parallel - Start parallel batch verification (faster, but higher load)
+ */
+app.post('/api/verify/parallel', async (req, res) => {
+    try {
+        const { companyIds, limit, concurrency } = req.body;
+        const parallelWorkers = concurrency || 3; // Default 3 parallel workers
+
+        let idsToVerify = companyIds;
+
+        if (!idsToVerify || idsToVerify.length === 0) {
+            const verification = await getVerificationModule();
+            const pending = await verification.getPendingVerifications(limit || 10);
+            idsToVerify = pending.map(c => c.id);
+        }
+
+        if (idsToVerify.length === 0) {
+            return res.json({
+                success: true,
+                message: 'No companies to verify',
+                total: 0
+            });
+        }
+
+        // Start parallel batch in background
+        const verification = await getVerificationModule();
+        verification.parallelBatchVerify(idsToVerify, parallelWorkers, 2000).then(results => {
+            console.log(`Parallel verification complete: ${results.successful}/${results.total} in ${(results.avgTime || 0).toFixed(1)}s avg`);
+        }).catch(err => {
+            console.error('Parallel verification failed:', err);
+        });
+
+        res.json({
+            success: true,
+            message: `Started PARALLEL verification of ${idsToVerify.length} companies with ${parallelWorkers} workers`,
+            total: idsToVerify.length,
+            concurrency: parallelWorkers,
+            companyIds: idsToVerify
+        });
+
+    } catch (error) {
+        console.error('Parallel verification error:', error);
+        res.status(500).json({ error: 'Failed to start parallel verification' });
+    }
+});
+
+/**
  * POST /api/verify/:companyId - Verify a single company
  * NOTE: This parameterized route must come AFTER static routes (queue, pending, batch)
  */
