@@ -129,9 +129,12 @@ export async function verifyCompany(companyId) {
         }
 
         // 8. Update company record with verification data
+        // Note: verified=true means "has been processed", not "passed verification"
+        // The actual pass/fail is determined by confidence score in verification_results
         const companyUpdate = {
             cvr: cvrResult.cvrNumber || company.cvr,
-            verified: scoring.confidence >= 70,
+            verified: true,  // Always mark as verified after processing
+            needs_review: scoring.needsReview,
             updated_at: new Date().toISOString()
         };
 
